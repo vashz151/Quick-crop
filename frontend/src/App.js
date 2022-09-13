@@ -1,16 +1,22 @@
 import "./App.css";
 import React from "react";
-// import { Routes, Route, Router } from "react-router-dom";
+import { Routes, Route, BrowserRouter} from "react-router-dom";
 import NavBar from "./components/NavBar";
-import "bootstrap/dist/css/bootstrap.min.css";
-
+import Home from "./components/Home";
+import About from "./components/About";
+import News from "./components/News";
 function App() {
   return (
-    <div className="App min-vh-100 d-flex justify-content-center align-items-center">
-      <div>
-        <NavBar />
-      </div>
-    </div>
+    <>
+      <BrowserRouter>
+      <NavBar/>
+        <Routes>
+          <Route path="/Quick-crop" element={<Home />}></Route>
+          <Route path="/Quick-crop/About" element={<About />}></Route>
+          <Route path="/Quick-crop/News" element={<News />}></Route>
+        </Routes>
+        </BrowserRouter>
+    </>
   );
 }
 
