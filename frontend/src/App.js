@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/Quick-crop" element={<Home />}></Route>
           <Route path="/Quick-crop/About" element={<About />}></Route>
-          <Route path="/Quick-crop/News" element={<News />}></Route>
+          <Route path="/Quick-crop/News" element={<News/>}></Route>
         </Routes>
         </HashRouter>
     </>

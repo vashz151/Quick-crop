@@ -6,7 +6,7 @@ export default function NavBar() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/Quick-crop">
-          Navbar
+          Quick Crop
         </Link>
         <button
           className="navbar-toggler"
@@ -54,7 +54,6 @@ export default function NavBar() {
             {/* <li className="nav-item">
           <a className="nav-link disabled">Disabled</a>
         </li> */}{" "}
-            */}
           </ul>
           <form className="d-flex" role="search">
             <input
