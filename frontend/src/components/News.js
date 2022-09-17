@@ -9,12 +9,12 @@ const News = (props) => {
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const updateNews = async () => {
-    const url = `https://newsdata.io/api/1/news?apikey=pub_1134612a987b2f1837244594843581dc3a495&q=${props.keywords}&country=${props.country}&language=${props.language}&page=${page}`;
+    const url = `https://newsdata.io/api/1/news?apikey=${props.apikey}&q=${props.keywords}&country=${props.country}&language=${props.language}&page=${page}`;
     // setloading(true);
     let data = await fetch(url);
     let parsedData = await data.json();
     setresults(parsedData.results);
-    // console.log(parsedData.results.pubDate);
+    console.log(parsedData);
     // setloading(false);
   };
   useEffect(() => {
@@ -26,7 +26,7 @@ const News = (props) => {
   }, []);
 
   const fetchMoreData = async () => {
-    const url = `https://newsdata.io/api/1/news?apikey=pub_1134612a987b2f1837244594843581dc3a495&q=${
+    const url = `https://newsdata.io/api/1/news?apikey=${props.apikey}&q=${
       props.keywords
     }&country=${props.country}&language=${props.language}&page=${page + 1}`;
     setPage(page + 1);
@@ -42,7 +42,9 @@ const News = (props) => {
       hasMore={results.length !== totalResults}
       // loader={<Spinner />}
     >
-      <h1 style={{marginTop: "3.6rem",textAlign:"center"}}>Top Headlines</h1>
+      <h1 style={{ marginTop: "3.6rem", textAlign: "center" }}>
+        Top Headlines
+      </h1>
       <div className="container">
         <div className="row row-cols-1 row-cols-md-3 g-4 ">
           {results.map((item) => {
@@ -50,8 +52,8 @@ const News = (props) => {
               <div className="col" key={item.link}>
                 <NewsItem
                   image_url={item.image_url}
-                  title={item.title?item.title:""}
-                  description={item.description?item.description:""}
+                  title={item.title ? item.title : ""}
+                  description={item.description ? item.description : ""}
                   link={item.link}
                   creator={item.creator}
                   source_id={item.source_id}
@@ -68,10 +70,12 @@ const News = (props) => {
 News.defaultProps = {
   country: "in",
   language: "en,hi",
-  keywords: "farming OR farmers OR agriculture OR farmer OR farm OR crops OR Ministry of Agriculture OR fertilizers",
+  keywords:
+    "farming OR farmers OR agriculture OR farmer OR farm OR crops OR MinistryAgriculture OR fertilizers",
 };
 News.propTypes = {
   country: PropTypes.string,
+  apikey: PropTypes.string,
 };
 
 export default News;
