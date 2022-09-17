@@ -1,8 +1,7 @@
 import React from "react";
-import news from "../news.jpg";
 
 const NewsItem = (props) => {
-  let { title, link, description, pubDate, image_url, source_id, creator } =
+  let { title, link, description, image_url, source_id, creator,pubDate } =
     props;
   return (
     <div className="my-3">
@@ -40,7 +39,7 @@ const NewsItem = (props) => {
               Read More
             </a>
           </div>
-          <div class="card-footer">
+          <div className="card-footer">
               <small className="text-muted">
                 By {!creator ? "Unknown" : creator} on {new Date(pubDate).toGMTString()}
               </small>
@@ -48,8 +47,5 @@ const NewsItem = (props) => {
         </div>
       </div>
   );
-};
-NewsItem.defaultProps = {
-  image_url: { news },
 };
 export default NewsItem;

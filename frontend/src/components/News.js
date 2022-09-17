@@ -9,12 +9,11 @@ const News = (props) => {
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const updateNews = async () => {
-    const url = `https://newsdata.io/api/1/news?apikey=pub_1131893c21e8997a0c62bfe990aba48d4f59f&q=${props.keywords}&country=${props.country}&language=${props.language}&page=${page}`;
+    const url = `https://newsdata.io/api/1/news?apikey=pub_1134612a987b2f1837244594843581dc3a495&q=${props.keywords}&country=${props.country}&language=${props.language}&page=${page}`;
     // setloading(true);
     let data = await fetch(url);
     let parsedData = await data.json();
     setresults(parsedData.results);
-    console.log(parsedData);
     // setloading(false);
   };
   useEffect(() => {
@@ -26,7 +25,7 @@ const News = (props) => {
   }, []);
 
   const fetchMoreData = async () => {
-    const url = `https://newsdata.io/api/1/news?apikey=pub_1131893c21e8997a0c62bfe990aba48d4f59f&q=${
+    const url = `https://newsdata.io/api/1/news?apikey=pub_1134612a987b2f1837244594843581dc3a495&q=${
       props.keywords
     }&country=${props.country}&language=${props.language}&page=${page + 1}`;
     setPage(page + 1);
