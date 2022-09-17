@@ -14,6 +14,7 @@ const News = (props) => {
     let data = await fetch(url);
     let parsedData = await data.json();
     setresults(parsedData.results);
+    // console.log(parsedData.results.pubDate);
     // setloading(false);
   };
   useEffect(() => {
@@ -41,19 +42,20 @@ const News = (props) => {
       hasMore={results.length !== totalResults}
       // loader={<Spinner />}
     >
+      <h1 style={{marginTop: "3.6rem",textAlign:"center"}}>Top Headlines</h1>
       <div className="container">
-        <div className="row">
+        <div className="row row-cols-1 row-cols-md-3 g-4 ">
           {results.map((item) => {
             return (
-              <div className="col-md-4" key={item.link}>
+              <div className="col" key={item.link}>
                 <NewsItem
                   image_url={item.image_url}
                   title={item.title?item.title:""}
                   description={item.description?item.description:""}
                   link={item.link}
                   creator={item.creator}
-                  pubdate={item.pubDate}
                   source_id={item.source_id}
+                  pubDate={item.pubDate}
                 />
               </div>
             );
@@ -66,7 +68,7 @@ const News = (props) => {
 News.defaultProps = {
   country: "in",
   language: "en,hi",
-  keywords: "farming OR farmers OR agriculture",
+  keywords: "farming OR farmers OR agriculture OR farmer OR farm OR crops OR Ministry of Agriculture OR fertilizers",
 };
 News.propTypes = {
   country: PropTypes.string,
