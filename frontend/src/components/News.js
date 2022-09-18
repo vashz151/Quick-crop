@@ -20,7 +20,6 @@ const News = (props) => {
   useEffect(() => {
     return () => {
       updateNews();
-      //eslint-disable-next-line
     };
     // eslint-disable-next-line
   }, []);
@@ -36,40 +35,49 @@ const News = (props) => {
     setTotalResults(parsedData.totalResults);
   };
   return (
-    <InfiniteScroll
-      dataLength={results.length}
-      next={fetchMoreData}
-      hasMore={results.length !== totalResults}
-      // loader={<Spinner />}
-    >
-      <div className="container">
-      <h1 style={{ textAlign: "center", marginTop:"1.2rem", marginBottom:"1.4rem"}}>Top Headlines</h1>
-        <div className="row row-cols-1 row-cols-md-3 g-4 ">
-          {results.map((item) => {
-            return (
-              <div className="col" key={item.link}>
-                <NewsItem
-                  image_url={item.image_url}
-                  title={item.title ? item.title : ""}
-                  description={item.description ? item.description : ""}
-                  link={item.link}
-                  creator={item.creator}
-                  source_id={item.source_id}
-                  pubDate={item.pubDate}
-                />
-              </div>
-            );
-          })}
+    <>
+      <h1
+        style={{
+          textAlign: "center",
+          marginTop: "1.2rem",
+          marginBottom: "1.4rem",
+        }}
+      >
+        Top Headlines
+      </h1>
+      <InfiniteScroll
+        dataLength={results.length}
+        next={fetchMoreData}
+        hasMore={results.length !== totalResults}
+        // loader={<Spinner />}
+      >
+        <div className="container">
+          <div className="row row-cols-1 row-cols-md-3 g-4 ">
+            {results.map((item) => {
+              return (
+                <div className="col" key={item.link}>
+                  <NewsItem
+                    image_url={item.image_url}
+                    title={item.title ? item.title : ""}
+                    description={item.description ? item.description : ""}
+                    link={item.link}
+                    creator={item.creator}
+                    source_id={item.source_id}
+                    pubDate={item.pubDate}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </InfiniteScroll>
+      </InfiniteScroll>
+    </>
   );
 };
 News.defaultProps = {
   country: "in",
   language: "en,hi",
-  keywords:
-    "farming OR farmers OR agriculture OR farmer OR farm OR crops OR MinistryAgriculture OR fertilizers",
+  keywords: "agriculture OR farming OR farmers",
 };
 News.propTypes = {
   country: PropTypes.string,
