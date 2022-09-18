@@ -1,15 +1,14 @@
-import React from 'react'
-import BootstrapCarousel from './BootstrapCarousel'
-import Background from "./Background";
-import Footer from './Footer';
+import React from "react";
+import BootstrapCarousel from "./BootstrapCarousel";
+// import Background from "./Background";
+// import Carousel from './Carousel'
 function Home() {
   return (
-    <div>
-      <Background/>
-      <BootstrapCarousel/>
-      <Footer/>
-    </div>
-  )
+    <>
+      {/* <Background /> */}
+      <BootstrapCarousel />
+    </>
+  );
 }
 
-export default Home
+export default Home;

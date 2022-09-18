@@ -1,73 +1,73 @@
-import React from "react";
+import { Nav, Navbar, Form, Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
-export default function NavBar() {
+import React, { useState } from "react";
+function NavBar() {
+  let [expanded, setExpanded] = useState(false);
   return (
-    <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/Quick-crop">
+    <Navbar
+      bg="dark"
+      variant="dark"
+      fixed="top"
+      expand="lg"
+      expanded={expanded}
+    >
+      <Container fluid>
+        <Navbar.Brand as={Link} to="/">
           Quick Crop
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link
-                className="nav-link active"
-                aria-current="page"
-                to="/Quick-crop"
-              >
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link active" to="/Quick-crop/About">
-                About
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link active" to="/Quick-crop/News">
-                News
-              </Link>
-            </li>
-            {/* <li className="nav-item dropdown">
-          <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          {/* <ul className="dropdown-menu">
-            <li><a className="dropdown-item" href="#">Action</a></li>
-            <li><a className="dropdown-item" href="#">Another action</a></li>
-            <li><hr className="dropdown-divider"/></li>
-            <li><a className="dropdown-item" href="#">Something else here</a></li>
-          </ul> */}
-            {/* </li> */}
-            {/* <li className="nav-item">
-          <a className="nav-link disabled">Disabled</a>
-        </li> */}{" "}
-          </ul>
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
+        </Navbar.Brand>
+        <Navbar.Toggle
+          aria-controls="navbarScroll"
+          onClick={() => setExpanded(true)}
+          onBlur={() => setExpanded(false)}
+        />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav className="me-auto my-2 my-lg-0" navbarScroll>
+            <Nav.Link
+              as={Link}
+              to="/"
+              onClick={() => setExpanded(false)}
+              onBlur={() => setExpanded(false)}
+            >
+              Home
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/about"
+              onClick={() => setExpanded(false)}
+              onBlur={() => setExpanded(false)}
+            >
+              About
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/news"
+              onClick={() => setExpanded(false)}
+              onBlur={() => setExpanded(false)}
+            >
+              News
+            </Nav.Link>
+          </Nav>
+          <Form className="d-flex">
+            <Form.Control
               type="search"
               placeholder="Search"
+              className="me-2"
               aria-label="Search"
+              onClick={() => setExpanded(true)}
+              onBlur={() => setExpanded(false)}
             />
-            <button className="btn btn-outline-success" type="submit">
+            <Button
+              variant="outline-success"
+              onClick={() => setExpanded(false)}
+              onBlur={() => setExpanded(false)}
+            >
               Search
-            </button>
-          </form>
-        </div>
-      </div>
-    </nav>
+            </Button>
+          </Form>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
+
+export default NavBar;

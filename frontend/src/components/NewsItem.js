@@ -1,5 +1,5 @@
 import React from "react";
-
+import image from '../images/news.jpeg'
 const NewsItem = (props) => {
   let { title, link, description, image_url, source_id, creator, pubDate } =
     props;
@@ -20,26 +20,30 @@ const NewsItem = (props) => {
         </span>
       </div>
       <img
-        style={{ height: "30vh", objectFit: "cover" }}
-        src={
-          !image_url
-            ? "https://media.istockphoto.com/photos/global-earth-rotating-digital-world-breaking-news-studio-background-picture-id1216529550?k=20&m=1216529550&s=170667a&w=0&h=vlm1s_XD56th2OSbMPVtO0saY78yXT-MZJYsqvAiJk4="
-            : image_url
-        }
+        style={{
+          height: "30vh",
+          width: "100%",
+          objectFit: "cover",
+          border: "3px solid black",
+        }}
+        src={image_url ? image_url : {image}}
+        onError={(e) => {
+          e.target.src = {image};
+        }}
         className="card-img-top"
-        alt=""
+        alt="breaking news"
       />
       <div className="card-body d-flex flex-column">
         <h5 className="card-title">{title}</h5>
-        <p className="card-text text-truncate" style={{ overflow: "hidden"}}>
+        <p className="card-text text-truncate" style={{ overflow: "hidden" }}>
           {description}
         </p>
         <a
           rel="noreferrer"
           href={link}
           target={"_blank"}
-          className="btn btn-primary mt-auto"
-          style={{ borderRadius: "0.4rem"}}  
+          className="btn btn-secondary active btn-lg  mt-auto"
+          style={{ borderRadius: "0.4rem" }}
         >
           Read More
         </a>

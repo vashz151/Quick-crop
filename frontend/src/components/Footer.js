@@ -1,128 +1,90 @@
-import React from 'react'
-import { MDBFooter } from 'mdb-react-ui-kit';
-import { MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
-
+import React from "react";
 function Footer() {
   return (
-    <MDBFooter bgColor='light' className='text-center text-lg-start text-muted'>
-      <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
-      <div className='me-5 d-none d-lg-block'>
-          <span>Get connected with us on social networks:</span>
-        </div>
-        <div>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon fab icon="facebook-f" />
-          </a>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon fab icon="twitter" />
-          </a>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon fab icon="google" />
-          </a>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon fab icon="instagram" />
-          </a>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon fab icon="linkedin" />
-          </a>
-          <a href='' className='me-4 text-reset'>
-            <MDBIcon fab icon="github" />
-          </a>
-        </div>
-      </section>
-
-      <section className=''>
-        <MDBContainer className='text-center text-md-start mt-5'>
-          <MDBRow className='mt-3'>
-            <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>
-                <MDBIcon icon="gem" className="me-3" />
-                Company name
-              </h6>
-              <p>
-                Here you can use rows and columns to organize your footer content. Lorem ipsum dolor sit amet,
-                consectetur adipisicing elit.
-              </p>
-            </MDBCol>
-
-            <MDBCol md="2" lg="2" xl="2" className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Products</h6>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Angular
+    <div className="container">
+      <footer className="py-5">
+        <div className="row">
+          <div className="col col-md-3 mb-3">
+            <h5>Section</h5>
+            <ul className="nav flex-column">
+              <li className="nav-item mb-2">
+                <a href="/" className="nav-link p-0 text-muted">
+                  Home
                 </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  React
+              </li>
+              <li className="nav-item mb-2">
+                <a href="/" className="nav-link p-0 text-muted">
+                  Features
                 </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Vue
-                </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Laravel
-                </a>
-              </p>
-            </MDBCol>
-
-            <MDBCol md="3" lg="2" xl="2" className='mx-auto mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Useful links</h6>
-              <p>
-                <a href='#!' className='text-reset'>
+              </li>
+              <li className="nav-item mb-2">
+                <a href="/" className="nav-link p-0 text-muted">
                   Pricing
                 </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Settings
+              </li>
+              <li className="nav-item mb-2">
+                <a href="/" className="nav-link p-0 text-muted">
+                  FAQs
                 </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Orders
+              </li>
+              <li className="nav-item mb-2">
+                <a href="/" className="nav-link p-0 text-muted">
+                  About
                 </a>
-              </p>
-              <p>
-                <a href='#!' className='text-reset'>
-                  Help
-                </a>
-              </p>
-            </MDBCol>
+              </li>
+            </ul>
+          </div>
+          <div className="col-md-4 offset-md-4 mb-3 d-flex flex-column flex-sm-row justify-content-end">
+            <form>
+              <h5>Subscribe to our newsletter</h5>
+              <p>Monthly digest of what's new and exciting from us.</p>
+              <div className="d-flex flex-column flex-sm-row w-100 gap-2">
+                <label htmlFor="newsletter1" className="visually-hidden">
+                  Email address
+                </label>
+                <input
+                  id="newsletter1"
+                  type="text"
+                  className="form-control"
+                  placeholder="Email address"
+                />
+                <button className="btn btn-primary" type="button">
+                  Subscribe
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
 
-            <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>Contact</h6>
-              <p>
-                <MDBIcon icon="home" className="me-2" />
-                 Maharashtra, Mumbai, India
-              </p>
-              <p>
-                <MDBIcon icon="envelope" className="me-3" />
-                info@example.com
-              </p>
-              <p>
-                <MDBIcon icon="phone" className="me-3" /> + 91 0123456789
-              </p>
-              <p>
-                <MDBIcon icon="print" className="me-3" /> + 91 0123456789
-              </p>
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-      </section>
-
-      <div className='text-center p-2' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-        © 2022 Copyright:
-        {/* <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
-          MDBootstrap.com
-        </a> */}
-        &nbsp;D.J. Sanghvi
+        <div className="col-md-3 offset-md-5 d-flex flex-column flex-sm-row justify-content-between py-5 my-3 border-top">
+          <p>&copy; 2022 Quick Crop, Inc. All rights reserved.</p>
+          <ul className="list-unstyled d-flex">
+            <li className="ms-3">
+              <a className="link-dark" href="/">
+                <svg className="bi" width="24" height="24">
+                  <use xlinkHref="#twitter" />
+                </svg>
+              </a>
+            </li>
+            <li className="ms-3">
+              <a className="link-dark" href="/">
+                <svg className="bi" width="24" height="24">
+                  <use xlinkHref="#instagram" />
+                </svg>
+              </a>
+            </li>
+            <li className="ms-3">
+              <a className="link-dark" href="/">
+                <svg className="bi" width="24" height="24">
+                  <use xlinkHref="#facebook" />
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </footer>
       </div>
-    </MDBFooter>
   );
 }
 
-export default Footer
+export default Footer;

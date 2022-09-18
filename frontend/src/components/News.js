@@ -42,10 +42,8 @@ const News = (props) => {
       hasMore={results.length !== totalResults}
       // loader={<Spinner />}
     >
-      <h1 style={{ marginTop: "3.6rem", textAlign: "center" }}>
-        Top Headlines
-      </h1>
       <div className="container">
+      <h1 style={{ textAlign: "center", marginTop:"1.2rem", marginBottom:"1.4rem"}}>Top Headlines</h1>
         <div className="row row-cols-1 row-cols-md-3 g-4 ">
           {results.map((item) => {
             return (
