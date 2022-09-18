@@ -21,18 +21,4 @@
 .anchoradjust a {
   color: black;
 }
-/* @media (max-width: 970px) {
-  .adjust {
-    width: 100% !important;
-    height: 15rem;
-  }
-  .whiteAdjust {
-    color: white;
-  }
-  .anchoradjust a {
-    color: white;
-  }
-}
-.anchoradjust a:hover {
-  color: rgb(227, 201, 108);
-} */
+

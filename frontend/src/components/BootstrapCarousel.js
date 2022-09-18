@@ -4,6 +4,8 @@ import "../css/Carousel.css";
 import img1 from "../images/c1.jpg";
 import img2 from "../images/c2.jpg";
 import img3 from "../images/c3.jpg";
+import right from "../images/right.svg";
+import left from "../images/left.svg";
 
 function BootstrapCarousel() {
   return (
@@ -12,6 +14,9 @@ function BootstrapCarousel() {
         width: "100%",
         verticalAlign: "center",
       }}
+      controls={true}
+      nextIcon={<img src={right} alt="right" height={"10%"} />}
+      prevIcon={<img src={left} alt="left" height={"10%"} />}
     >
       <Carousel.Item interval={3000}>
         <img className="d-block w-100 adjust" src={img1} alt="First slide" />

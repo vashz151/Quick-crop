@@ -2,20 +2,19 @@ import NewsItem from "./NewsItem";
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
-
+import Loading from "./Loading";
 const News = (props) => {
   const [results, setresults] = useState([]);
-  // const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const updateNews = async () => {
     const url = `https://newsdata.io/api/1/news?apikey=${props.apikey}&q=${props.keywords}&country=${props.country}&language=${props.language}&page=${page}`;
-    // setloading(true);
+    setloading(true);
     let data = await fetch(url);
     let parsedData = await data.json();
     setresults(parsedData.results);
-    console.log(parsedData);
-    // setloading(false);
+    setloading(false);
   };
   useEffect(() => {
     return () => {
@@ -45,11 +44,12 @@ const News = (props) => {
       >
         Top Headlines
       </h1>
+      {loading && <Loading />}
       <InfiniteScroll
         dataLength={results.length}
         next={fetchMoreData}
-        hasMore={results.length !== totalResults}
-        // loader={<Spinner />}
+        hasMore={results.length !== totalResults - 10}
+        loader={<Loading />}
       >
         <div className="container">
           <div className="row row-cols-1 row-cols-md-3 g-4 ">

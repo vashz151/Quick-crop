@@ -7,8 +7,8 @@ import About from "./components/About";
 import News from "./components/News";
 import Footer from "./components/Footer";
 function App() {
-  const apikey = "pub_11366f387421e2f181d6a0b3458d824e857bff";//mihir's apikey
-  // const apikey=process.env.REACT_APP_NEWS_DATA;
+  // const apikey = "pub_11366f387421e2f181d6a0b3458d824e857bf";//mihir's apikey
+  const apikey=process.env.REACT_APP_NEWS_DATA;
   return (
     <>
       <BrowserRouter>
