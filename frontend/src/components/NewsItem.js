@@ -1,6 +1,6 @@
 import React from "react";
-import image from '../images/news.jpeg'
 const NewsItem = (props) => {
+  const image ="https://images.hindustantimes.com/img/2022/09/17/550x309/WhatsApp_Image_2021-09-18_at_09.42.18_1631944439782_1663372914274_1663372914274.jpeg";
   let { title, link, description, image_url, source_id, creator, pubDate } =
     props;
   return (
@@ -26,9 +26,9 @@ const NewsItem = (props) => {
           objectFit: "cover",
           border: "3px solid black",
         }}
-        src={image_url ? image_url : {image}}
+        src={image_url ? image_url : image}
         onError={(e) => {
-          e.target.src = {image};
+          e.target.src = image;
         }}
         className="card-img-top"
         alt="breaking news"
