@@ -1,8 +1,14 @@
 import React from 'react'
-
+import BootstrapCarousel from './BootstrapCarousel'
+import Background from "./Background";
+import Footer from './Footer';
 function Home() {
   return (
-    <div>Home</div>
+    <div>
+      <Background/>
+      <BootstrapCarousel/>
+      <Footer/>
+    </div>
   )
 }
 

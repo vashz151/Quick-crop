@@ -6,17 +6,18 @@ import Home from "./components/Home";
 import About from "./components/About";
 import News from "./components/News";
 function App() {
-  const apikey=process.env.REACT_APP_NEWS_DATA
+  const apikey="pub_11366f387421e2f181d6a0b3458d824e857bf"
   return (
     <>
       <HashRouter>
-      <NavBar/>
-        <Routes>
-          <Route path="/Quick-crop" element={<Home />}></Route>
-          <Route path="/Quick-crop/About" element={<About />}></Route>
-          <Route path="/Quick-crop/News" element={<News apikey={apikey}/>}></Route>
-        </Routes>
-        </HashRouter>
+        
+        <NavBar/>
+          <Routes>
+            <Route path="/Quick-crop" element={<Home />}></Route>
+            <Route path="/Quick-crop/About" element={<About />}></Route>
+            <Route path="/Quick-crop/News" element={<News apikey={apikey}/>}></Route>
+          </Routes>
+      </HashRouter>
     </>
   );
 }
