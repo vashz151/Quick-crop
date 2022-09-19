@@ -5,16 +5,17 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Loading from "./Loading";
 const News = (props) => {
   const [results, setresults] = useState([]);
-  const [loading, setloading] = useState(true);
+  const [load, setload] = useState(true);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const updateNews = async () => {
     const url = `https://newsdata.io/api/1/news?apikey=${props.apikey}&q=${props.keywords}&country=${props.country}&language=${props.language}&page=${page}`;
-    setloading(true);
+    setload(true);
     let data = await fetch(url);
     let parsedData = await data.json();
     setresults(parsedData.results);
-    setloading(false);
+    setTotalResults(parsedData.totalResults);
+    setload(false);
   };
   useEffect(() => {
     return () => {
@@ -27,11 +28,13 @@ const News = (props) => {
     const url = `https://newsdata.io/api/1/news?apikey=${props.apikey}&q=${
       props.keywords
     }&country=${props.country}&language=${props.language}&page=${page + 1}`;
-    setPage(page + 1);
+    setload(true);
+    setPage(page + 1)
     let data = await fetch(url);
-    let parsedData = await data.json();
-    setresults(results.concat(parsedData.results));
+    let parsedData =await data.json()
+    setresults(results.concat(parsedData.results),()=>{console.log(results)});
     setTotalResults(parsedData.totalResults);
+    setload(false);
   };
   return (
     <>
@@ -44,18 +47,18 @@ const News = (props) => {
       >
         Top Headlines
       </h1>
-      {loading && <Loading />}
+      {<Loading load/>}
       <InfiniteScroll
         dataLength={results.length}
         next={fetchMoreData}
-        hasMore={results.length !== totalResults - 10}
-        loader={<Loading />}
+        hasMore={results.length !== totalResults && load}
+        loader={<Loading load/>}
       >
         <div className="container">
           <div className="row row-cols-1 row-cols-md-3 g-4 ">
-            {results.map((item) => {
+            {results.map((item, i) => {
               return (
-                <div className="col" key={item.link}>
+                <div className="col" key={i}>
                   <NewsItem
                     image_url={item.image_url}
                     title={item.title ? item.title : ""}

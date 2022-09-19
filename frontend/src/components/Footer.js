@@ -48,7 +48,11 @@ function Footer() {
                   className="form-control"
                   placeholder="Email address"
                 />
-                <button className="btn btn-primary" type="button">
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  onClick={() => {}}
+                >
                   Subscribe
                 </button>
               </div>
@@ -58,6 +62,7 @@ function Footer() {
 
         <div className="col-md-3 offset-md-5 d-flex flex-column flex-sm-row justify-content-between py-5 my-3 border-top">
           <p>&copy; 2022 Quick Crop, Inc. All rights reserved.</p>
+
           <ul className="list-unstyled d-flex">
             <li className="ms-3">
               <a className="link-dark" href="/">
@@ -83,7 +88,7 @@ function Footer() {
           </ul>
         </div>
       </footer>
-      </div>
+    </div>
   );
 }
 
