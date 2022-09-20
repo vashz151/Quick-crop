@@ -2,9 +2,9 @@ import React from "react";
 function Footer() {
   return (
     <div className="container">
-      <footer className="py-6" style={{ marginTop: "2%" }}>
-        <div className="row-md-4 offset-md-4 mb-3 d-flex flex-column flex-sm-row justify-content-end">
-          <div className="col md-4 offset-md-4 mb-3 flex-column flex-sm-row justify-content-start">
+      <footer className="py-5">
+        <div className="row-md-4 mb-3 d-flex flex-column flex-sm-row justify-content-start">
+          <div className="col-md-2 mb-3 flex-column flex-sm-row">
             <h5>Section</h5>
             <ul className="nav flex-column">
               <li className="nav-item mb-2">
@@ -34,13 +34,13 @@ function Footer() {
               </li>
             </ul>
           </div>
-          <div className="col-md-4 offset-md-4 mb-3 d-flex">
+          <div className="col-md-2 offset-md-2 mb-3 d-flex">
             <p>
               Quick Crop is a free, open source project. It is licensed under
               the DJSCE license. The source code is available on GitHub.
             </p>
           </div>
-          <div className="col-md-4 offset-md-4 mb-3 d-flex">
+          <div className="col-md-4 offset-md-3 mb-3 d-flex">
             <form>
               <h5>Subscribe to our newsletter</h5>
               <p>Monthly digest of what's new and exciting from us.</p>
@@ -73,12 +73,11 @@ function Footer() {
             marginLeft: "24%",
           }}
         />
-        <div className="col-md-3 offset-md-5 d-flex flex-column flex-sm-row justify-content-between py-2">
-          <p>
-            &copy; 2022 Quick Crop, Inc. <br />
-            All rights reserved.
-          </p>
-
+        <h6 style={{textAlign:"center"}}>
+          &copy; 2022 Quick Crop, Inc. <br />
+          All rights reserved.
+        </h6>
+        <div>
           <ul className="list-unstyled d-flex">
             <li className="ms-3">
               <a className="link-dark" href="/">

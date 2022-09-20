@@ -13,7 +13,6 @@ const News = (props) => {
     let parsedData = await data.json();
     setresults(parsedData.results);
     setTotalResults(parsedData.totalResults);
-    console.log(url);
   };
   useEffect(() => {
     return () => {
@@ -31,7 +30,6 @@ const News = (props) => {
     let parsedData = await data.json();
     setresults(results.concat(parsedData.results));
     setTotalResults(parsedData.totalResults);
-    console.log(url);
   };
   return (
     <>

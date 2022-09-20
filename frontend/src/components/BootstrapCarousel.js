@@ -14,7 +14,7 @@ function BootstrapCarousel() {
         width: "100%",
         verticalAlign: "center",
       }}
-      controls={true}
+      indicators={false}
       nextIcon={<img src={right} alt="right" height={"10%"} />}
       prevIcon={<img src={left} alt="left" height={"10%"} />}
     >
@@ -23,8 +23,8 @@ function BootstrapCarousel() {
           autoPlay
           muted
           loop
-          className="d-block w-100"
-          style={{ width: "100%", height: "42.5rem", objectFit: "cover" }}
+          className="d-block w-100 adjust"
+          style={{ objectFit: "cover" }}
         >
           <source src={background} />
         </video>
