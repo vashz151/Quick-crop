@@ -1,17 +1,14 @@
 import React from "react";
-import loading from "../images/loading.gif";
+import loading from "../images/loading.svg";
 
-const Loading = (props) => {
+const Loading = () => {
   return (
     <div className="text-center">
-      if (props.load==="tre")
-      {
-        <img
-          src={loading}
-          alt="loading"
-          style={{ width: "100px", margin: "auto", display: "block" }}
-        />
-      }
+      <img
+        src={loading}
+        alt="loading"
+        style={{ width: "100px", margin: "auto", display: "block" }}
+      />
     </div>
   );
 };

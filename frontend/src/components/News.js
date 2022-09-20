@@ -5,17 +5,15 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Loading from "./Loading";
 const News = (props) => {
   const [results, setresults] = useState([]);
-  const [load, setload] = useState(true);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const updateNews = async () => {
     const url = `https://newsdata.io/api/1/news?apikey=${props.apikey}&q=${props.keywords}&country=${props.country}&language=${props.language}&page=${page}`;
-    setload(true);
     let data = await fetch(url);
     let parsedData = await data.json();
     setresults(parsedData.results);
     setTotalResults(parsedData.totalResults);
-    setload(false);
+    console.log(url);
   };
   useEffect(() => {
     return () => {
@@ -28,13 +26,12 @@ const News = (props) => {
     const url = `https://newsdata.io/api/1/news?apikey=${props.apikey}&q=${
       props.keywords
     }&country=${props.country}&language=${props.language}&page=${page + 1}`;
-    setload(true);
-    setPage(page + 1)
+    setPage(page + 1);
     let data = await fetch(url);
-    let parsedData =await data.json()
-    setresults(results.concat(parsedData.results),()=>{console.log(results)});
+    let parsedData = await data.json();
+    setresults(results.concat(parsedData.results));
     setTotalResults(parsedData.totalResults);
-    setload(false);
+    console.log(url);
   };
   return (
     <>
@@ -47,18 +44,17 @@ const News = (props) => {
       >
         Top Headlines
       </h1>
-      {<Loading load/>}
       <InfiniteScroll
         dataLength={results.length}
         next={fetchMoreData}
-        hasMore={results.length !== totalResults && load}
-        loader={<Loading load/>}
+        hasMore={results.length !== totalResults - 10}
+        loader={<Loading />}
       >
         <div className="container">
           <div className="row row-cols-1 row-cols-md-3 g-4 ">
-            {results.map((item, i) => {
+            {results.map((item) => {
               return (
-                <div className="col" key={i}>
+                <div className="col" key={item.link}>
                   <NewsItem
                     image_url={item.image_url}
                     title={item.title ? item.title : ""}
