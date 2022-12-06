@@ -220,9 +220,8 @@ function CropRecommend() {
             ))}
           </select>
         </div>
-
-        <div className="d-flex justify-content-center" id="crbtn">
-          <button type="submit" className="btn btn-info">
+        <div className="d-flex justify-content-center">
+          <button type="submit" className="btn btn-info" id="crbtn">
             Predict
           </button>
         </div>
