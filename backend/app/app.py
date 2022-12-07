@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 import numpy as np
 import pandas as pd
 import requests
-import config
+import api
 import pickle
 
 crop_recommendation_model_path = '../Models/RandomForest.pkl'
@@ -15,7 +15,7 @@ crops = np.load('crops.npy', allow_pickle=True)
 
 
 def weather_fetch(city):
-    api_key = config.weather_api_key
+    api_key = api.weather_api_key
     base_url = "http://api.openweathermap.org/geo/1.0/direct?q={city_name}&appid={API_key}&limit=1"
     complete_url = base_url.format(city_name=city, API_key=api_key)
     response = requests.get(complete_url)
