@@ -1,46 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/cr.css";
-// import CropResult from "./CropResult";
 function CropRecommend() {
-  var state_arr = [
-    "",
-    "Andaman & Nicobar",
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chandigarh",
-    "Chhattisgarh",
-    "Dadra & Nagar Haveli",
-    "Daman & Diu",
-    "Delhi",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jammu & Kashmir",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Lakshadweep",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Orissa",
-    "Pondicherry",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttaranchal",
-    "West Bengal",
-  ];
-
+  const navigate = useNavigate();
+  //import
+  var state_arr = require("./state.json");
   var s_a = new Array(35);
   s_a[0] = "";
   s_a[1] =
@@ -117,7 +81,6 @@ function CropRecommend() {
   const handleChange = (event) => {
     setState(event.target.value);
   };
-  const [prediction, setPrediction] = React.useState("");
   const [formdata, setFormdata] = React.useState({
     nitrogen: "",
     phosphorous: "",
@@ -148,10 +111,9 @@ function CropRecommend() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setPrediction(data.response.prediction);
+        navigate("/crop-result", { state: data.response.prediction });
       });
   };
-
   return (
     <div id="cr">
       <form id="formdata">

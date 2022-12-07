@@ -7,11 +7,11 @@ import requests
 import config
 import pickle
 
-crop_recommendation_model_path = 'RandomForest.pkl'
+crop_recommendation_model_path = '../Models/RandomForest.pkl'
 crop_recommendation_model = pickle.load(
     open(crop_recommendation_model_path, 'rb'))
 
-crops = np.load('columns.npy', allow_pickle=True)
+crops = np.load('crops.npy', allow_pickle=True)
 
 
 def weather_fetch(city):
@@ -54,7 +54,7 @@ def crop_prediction():
             prediction.append(crops[i])
     pred = str(prediction[0])
     response = {"status": "success", "prediction": pred,
-                       "message": "Crop recommendation fetched successfully"}
+                "message": "Crop recommendation fetched successfully"}
     return {
         "response": response
     }
