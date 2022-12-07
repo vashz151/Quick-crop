@@ -1,5 +1,6 @@
 import React from "react";
 import "../css/cr.css";
+// import CropResult from "./CropResult";
 function CropRecommend() {
   var state_arr = [
     "",
@@ -115,12 +116,45 @@ function CropRecommend() {
   const [state, setState] = React.useState(0);
   const handleChange = (event) => {
     setState(event.target.value);
-    console.log(event.target.value);
+  };
+  const [prediction, setPrediction] = React.useState("");
+  const [formdata, setFormdata] = React.useState({
+    nitrogen: "",
+    phosphorous: "",
+    pottasium: "",
+    ph: "",
+    rainfall: "",
+    city: "",
+  });
+  const handleFormChange = (event) => {
+    const { name, value } = event.target;
+    setFormdata((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value.trim(),
+      };
+    });
+  };
+  const handlePredict = (event) => {
+    event.preventDefault();
+    const data = formdata;
+    fetch("/crop-predict", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setPrediction(data.response.prediction);
+      });
   };
 
   return (
     <div id="cr">
-      <form method="POST" action="{{ url_for('crop_prediction') }}">
+      <form id="formdata">
         <div className="form-group">
           <label htmlFor="Nitrogen">
             <b>Nitrogen</b>
@@ -132,6 +166,7 @@ function CropRecommend() {
             name="nitrogen"
             placeholder="Enter the value (example:50)"
             required
+            onChange={handleFormChange}
           />
         </div>
         <div className="form-group">
@@ -145,6 +180,7 @@ function CropRecommend() {
             name="phosphorous"
             placeholder="Enter the value (example:50)"
             required
+            onChange={handleFormChange}
           />
         </div>
 
@@ -159,6 +195,7 @@ function CropRecommend() {
             name="pottasium"
             placeholder="Enter the value (example:50)"
             required
+            onChange={handleFormChange}
           />
         </div>
         <div className="form-group">
@@ -173,6 +210,7 @@ function CropRecommend() {
             name="ph"
             placeholder="Enter the value"
             required
+            onChange={handleFormChange}
           />
         </div>
         <div className="form-group">
@@ -187,6 +225,7 @@ function CropRecommend() {
             name="rainfall"
             placeholder="Enter the value"
             required
+            onChange={handleFormChange}
           />
         </div>
         <div className="form-group">
@@ -208,20 +247,31 @@ function CropRecommend() {
               </option>
             ))}
           </select>
-          <label htmlFor="City">
+          <label htmlFor="city">
             <b>City</b>
           </label>
-          <select id="state" className="form-control" name="city" required>
+          <select
+            id="city"
+            className="form-control"
+            name="city"
+            required
+            onChange={handleFormChange}
+          >
             <option value="-1">Select City</option>
             {s_a[state].split("|").map((item, index) => (
-              <option value={index} key={index}>
+              <option value={item} key={index}>
                 {item}
               </option>
             ))}
           </select>
         </div>
         <div className="d-flex justify-content-center">
-          <button type="submit" className="btn btn-info" id="crbtn">
+          <button
+            type="submit"
+            className="btn btn-info"
+            id="crbtn"
+            onClick={handlePredict}
+          >
             Predict
           </button>
         </div>
