@@ -22,5 +22,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# ignore config.py from entire project
+# ignore api.py from entire project
 api.py
+
+#ignore __pycache__ from entire project
+__pycache__/
