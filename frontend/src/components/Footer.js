@@ -1,5 +1,21 @@
 import React from "react";
+import emailjs from "@emailjs/browser";
 function Footer() {
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm("quickcrop", "quickcrop_temp", e.target, "kgWSv7mKn7T812rbf")
+      .then(
+        (result) => {
+          alert("Thank you for subscribing to our newsletter!");
+        },
+        (error) => {
+          alert("Something went wrong. Please try again later.");
+        }
+      );
+  };
+
   return (
     <div className="container">
       <footer className="py-5">
@@ -14,22 +30,27 @@ function Footer() {
               </li>
               <li className="nav-item mb-2">
                 <a href="/" className="nav-link p-0 text-light">
-                  Features
+                  Crop Recommend
                 </a>
               </li>
               <li className="nav-item mb-2">
                 <a href="/" className="nav-link p-0 text-light">
-                  Pricing
+                  Yield Prediction
                 </a>
               </li>
               <li className="nav-item mb-2">
                 <a href="/" className="nav-link p-0 text-light">
-                  FAQs
+                  Fertilizer Recommendation
                 </a>
               </li>
               <li className="nav-item mb-2">
                 <a href="/" className="nav-link p-0 text-light">
                   About
+                </a>
+              </li>
+              <li className="nav-item mb-2">
+                <a href="/" className="nav-link p-0 text-light">
+                  News
                 </a>
               </li>
             </ul>
@@ -41,27 +62,43 @@ function Footer() {
             </p>
           </div>
           <div className="col-md-4 offset-md-3 mb-3 d-flex">
-            <form>
+            <form onSubmit={sendEmail}>
               <h5>Subscribe to our newsletter</h5>
               <p>Monthly digest of what's new and exciting from us.</p>
-              <div className="d-flex flex-column flex-sm-row w-100 gap-2">
-                <label htmlFor="newsletter1" className="visually-hidden">
+
+              <div className="d-flex flex-column flex-sm-row w-100 gap-2  ">
+                <label htmlFor="name" className="visually-hidden">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  className="form-control"
+                  placeholder="Enter Name"
+                />
+                <label htmlFor="email" className="visually-hidden">
                   Email address
                 </label>
                 <input
-                  id="newsletter1"
-                  type="text"
+                  id="email"
+                  name="email"
+                  type="email"
                   className="form-control"
                   placeholder="Email address"
                 />
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={() => {}}
-                >
-                  Subscribe
-                </button>
               </div>
+              <button
+                className="btn btn-secondary btn-lg btn-block"
+                type="submit"
+                style={{
+                  width: "100%",
+                  marginTop: "20px",
+                  backgroundColor: "#565e64",
+                }}
+              >
+                Subscribe
+              </button>
             </form>
           </div>
         </div>
@@ -73,7 +110,7 @@ function Footer() {
             marginLeft: "24%",
           }}
         />
-        <h6 style={{textAlign:"center"}}>
+        <h6 style={{ textAlign: "center" }}>
           &copy; 2022 Quick Crop, Inc. <br />
           All rights reserved.
         </h6>
