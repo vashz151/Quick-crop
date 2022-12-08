@@ -5,7 +5,10 @@ const NewsItem = (props) => {
   let { title, link, description, image_url, source_id, creator, pubDate } =
     props;
   return (
-    <div className="card h-100 text-bg-secondary mb-3" style={{backgroundColor:"black"}}>
+    <div
+      className="card h-100 text-bg-secondary mb-3"
+      style={{ backgroundColor: "black" }}
+    >
       <div
         style={{
           display: "flex",
@@ -34,7 +37,10 @@ const NewsItem = (props) => {
         className="card-img-top"
         alt="breaking news"
       />
-      <div className="card-body d-flex flex-column" style={{backgroundColor:"#332d2d", border:"1px solid white"}}>
+      <div
+        className="card-body d-flex flex-column"
+        style={{ backgroundColor: "#332d2d", border: "1px solid white" }}
+      >
         <h5 className="card-title text-white">{title}</h5>
         <p
           className="card-text text-truncate text-white"
