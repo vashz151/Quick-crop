@@ -52,9 +52,16 @@ def crop_prediction():
     for i in range(0, len(final_prediction)):
         if final_prediction[i] == 1:
             prediction.append(crops[i])
+    if len(prediction) == 0:
+        prediction = ['No crop']
     pred = str(prediction[0])
-    response = {"status": "success", "prediction": pred,
-                "message": "Crop recommendation fetched successfully"}
+    # if pred is null
+    if pred == 'No crop':
+        response = {"status": "error", "prediction": pred,
+                    "message": "No crop can be grown in this region"}
+    else:
+        response = {"status": "success", "prediction": pred,
+                    "message": "Crop recommendation fetched successfully"}
     return {
         "response": response
     }
