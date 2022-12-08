@@ -1,9 +1,10 @@
-import React from "react";
-import BootstrapCarousel from "./BootstrapCarousel";
+import Carousel from "./Carousel";
+import Services from "./Services";
 function Home() {
   return (
     <>
-      <BootstrapCarousel />
+      <Carousel />
+      <Services />
     </>
   );
 }
