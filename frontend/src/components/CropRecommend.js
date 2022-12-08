@@ -115,7 +115,7 @@ function CropRecommend() {
       });
   };
   return (
-    <div id="cr">
+    <div className="cr">
       <form id="formdata">
         <div className="form-group">
           <label htmlFor="Nitrogen">
@@ -230,8 +230,7 @@ function CropRecommend() {
         <div className="d-flex justify-content-center">
           <button
             type="submit"
-            className="btn btn-info"
-            id="crbtn"
+            className="btn btn-info crbtn"
             onClick={handlePredict}
           >
             Predict

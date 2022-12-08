@@ -17,7 +17,7 @@ function Footer() {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ width: "80%" }}>
       <footer className="py-5">
         <div className="row-md-4 mb-3 d-flex flex-column flex-sm-row justify-content-start">
           <div className="col-md-2 mb-3 flex-column flex-sm-row">
