@@ -1,10 +1,12 @@
-import { Nav, Navbar, Form, Container, Button } from "react-bootstrap";
+import { Nav, Navbar, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
+import logo from "../images/logo.svg";
+import "../css/navbar.css";
 function NavBar() {
   let [expanded, setExpanded] = useState(false);
   return (
-    <div style={{ marginBottom: "18px" }}>
+    <div style={{ marginBottom: "26px" }}>
       <Navbar
         bg="dark"
         variant="dark"
@@ -13,12 +15,14 @@ function NavBar() {
         expanded={expanded}
       >
         <Container fluid>
-          <Navbar.Brand as={Link} to="/">
-            Quick Crop
-          </Navbar.Brand>
+          <img
+            id="logo"
+            src={logo}
+            alt="logo"
+          />
           <Navbar.Toggle
             aria-controls="navbarScroll"
-            onClick={() => setExpanded(true)}
+            onClick={() => setExpanded(expanded ? false : true)}
             onBlur={() => setExpanded(false)}
           />
           <Navbar.Collapse id="navbarScroll">
@@ -48,23 +52,6 @@ function NavBar() {
                 News
               </Nav.Link>
             </Nav>
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-                onClick={() => setExpanded(true)}
-                onBlur={() => setExpanded(false)}
-              />
-              <Button
-                variant="outline-success"
-                onClick={() => setExpanded(false)}
-                onBlur={() => setExpanded(false)}
-              >
-                Search
-              </Button>
-            </Form>
           </Navbar.Collapse>
         </Container>
       </Navbar>

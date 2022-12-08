@@ -10,8 +10,8 @@ import ScrollToTop from "./components/ScrollToTop";
 import CropRecommend from "./components/CropRecommend";
 import CropResult from "./components/CropResult";
 function App() {
-  const apikey = "";
-  // const apikey = "pub_11366f387421e2f181d6a0b3458d824e857bf"; //mihir's apikey
+  // const apikey = "";
+  const apikey = "pub_11366f387421e2f181d6a0b3458d824e857bf"; //mihir's apikey
   // const apikey=process.env.REACT_APP_NEWS_DATAA;
   return (
     <>
