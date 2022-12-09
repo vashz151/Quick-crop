@@ -56,10 +56,15 @@ function Footer() {
             </ul>
           </div>
           <div className="col-md-2 offset-md-2 mb-3 d-flex">
-            <p>
+            <a
+              href="https://github.com/vashz151/Quick-crop"
+              rel="noopener noreferrer"
+              target={"_blank"}
+              style={{ color: "white", textDecoration: "none" }}
+            >
               Quick Crop is a free, open source project. It is licensed under
               the DJSCE license. The source code is available on GitHub.
-            </p>
+            </a>
           </div>
           <div className="col-md-4 offset-md-3 mb-3 d-flex">
             <form onSubmit={sendEmail}>

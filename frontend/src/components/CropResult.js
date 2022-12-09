@@ -23,7 +23,7 @@ function CropResult(props) {
   return (
     <div className="crdiv">
       {results
-        .filter((item, index) => index > 1 && index < 3)
+        .filter((item, index) => index < 1)
         .map((item, index) => {
           return (
             <img key={index} id="img" src={item.urls.regular} alt="crop" />
@@ -31,9 +31,10 @@ function CropResult(props) {
         })}
       <h1 className="text-center" style={{ color: "white" }}>
         {location.state === "No crop" ? (
-          <p className="para">
+          <div className="para">
             <b>
-              <i>{location.state} </i>can be grown in your farm!.
+              <i style={{ color: "red" }}>{location.state} </i>can be grown in
+              your farm!.
             </b>
             <p className="para">
               Try our Fertilizer Recommendation System to increase nutrient
@@ -44,14 +45,15 @@ function CropResult(props) {
               className="crbtn"
               onClick={() => navigate("/fertilizer-recommend")}
             >
-              Fertilizer Recommendation
+              Fertilizer
             </button>
-          </p>
+          </div>
         ) : (
           <p className="para">
             <br />
             <i>
-              You should grow <i>{location.state} </i>in your farm!
+              You should grow{" "}
+              <i style={{ color: "orange" }}>{location.state} </i>in your farm!
             </i>
             <br />
             Want to know about the yield of the crop?
