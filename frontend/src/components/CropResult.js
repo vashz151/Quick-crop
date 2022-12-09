@@ -44,7 +44,7 @@ function CropResult(props) {
               className="crbtn"
               onClick={() => navigate("/fertilizer-recommend")}
             >
-              Fertilizer Recommendation
+              Fertilizer
             </button>
           </p>
         ) : (
