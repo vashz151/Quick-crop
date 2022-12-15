@@ -6,11 +6,16 @@ import pandas as pd
 import requests
 import api
 import pickle
+import json
+
+rainfall_data = pd.read_csv('rain.csv')
 
 crop_recommendation_model_path = '../Models/RandomForest.pkl'
 crop_recommendation_model = pickle.load(
     open(crop_recommendation_model_path, 'rb'))
 
+crop_yield_model_path = '../Models/Yield.pkl'
+crop_yield_model = pickle.load(open(crop_yield_model_path, 'rb'))
 crops = np.load('crops.npy', allow_pickle=True)
 
 
@@ -42,9 +47,10 @@ def crop_prediction():
     P = formdata['phosphorous']
     K = formdata['pottasium']
     ph = formdata['ph']
-    rainfall = formdata['rainfall']
+    season = formdata['season']
     city = formdata['city']
     temperature, humidity = weather_fetch(city)
+    rainfall = rainfall_data[rainfall_data["DIST"] == city][season].values[0]
     data = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
     my_prediction = crop_recommendation_model.predict(data)
     final_prediction = my_prediction[0]
@@ -54,17 +60,54 @@ def crop_prediction():
             prediction.append(crops[i])
     if len(prediction) == 0:
         prediction = ['No crop']
-    pred = str(prediction[0])
-    # if pred is null
+    pred = {
+        "prediction": prediction[0],
+        "temperature": temperature,
+        "humidity": humidity,
+        "rainfall": rainfall
+    }
+
     if pred == 'No crop':
-        response = {"status": "error", "prediction": pred,
+        response = {"status": "error", "result": pred,
                     "message": "No crop can be grown in this region"}
     else:
-        response = {"status": "success", "prediction": pred,
+        response = {"status": "success", "result": pred,
                     "message": "Crop recommendation fetched successfully"}
     return {
         "response": response
     }
+
+
+# @ app.route('/crop-yield-predict', methods=['POST'])
+# def crop_yield_prediction():
+#     formdata = request.json
+#     crop = formdata['crop']
+#     area = formdata['area']
+#     season = formdata['season']
+#     city = formdata['city']
+#     temperature, humidity = weather_fetch(city)
+#     rainfall = rainfall_data[rainfall_data["DIST"] == city][season].values[0]
+#     data = np.array([[crop, area, season, city, temperature,  rainfall]])
+#     my_prediction = crop_recommendation_model.predict(data)
+#     prediction = my_prediction[0]
+#     if len(prediction) == 0:
+#         prediction = ['No crop']
+#     pred = {
+#         "prediction": prediction,
+#         "temperature": temperature,
+#         "humidity": humidity,
+#         "rainfall": rainfall
+#     }
+
+#     if pred == '':
+#         response = {"status": "error", "result": pred,
+#                     "message": "No crop can be grown in this region"}
+#     else:
+#         response = {"status": "success", "result": pred,
+#                     "message": "Crop recommendation fetched successfully"}
+#     return {
+#         "response": response
+#     }
 
 
 if __name__ == '__main__':
