@@ -8,7 +8,7 @@ import News from "./components/News";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import CropRecommend from "./components/CropRecommend";
-import CropResult from "./components/CropResult";
+import CropYield from "./components/CropYield";
 function App() {
   // const apikey = "";
   const apikey = "pub_11366f387421e2f181d6a0b3458d824e857bf"; //mihir's apikey
@@ -26,13 +26,9 @@ function App() {
           <Route
             exact
             path="/crop-recommend"
-            element={<CropRecommend />}
+            element={<CropRecommend apikey={apikey1} />}
           ></Route>
-          <Route
-            exact
-            path="/crop-result"
-            element={<CropResult apikey={apikey1} />}
-          ></Route>
+          <Route exact path="/crop-yield" element={<CropYield />}></Route>
           <Route exact path="/news" element={<News apikey={apikey} />}></Route>
         </Routes>
         <Footer />
