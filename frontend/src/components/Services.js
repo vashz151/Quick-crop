@@ -20,7 +20,7 @@ function Services() {
       src: s2,
       alt: "crop-yield-prediction",
       text: "Prediction about the yield of the crop to be cultivated which is best suited for the respective conditions.",
-      link: "/crop-predict",
+      url: "/crop-yield",
     },
     card3: {
       title: "Fertilizer Recommendation",
@@ -42,6 +42,7 @@ function Services() {
               bg="light"
               onClick={() => navigate(card.url)}
             >
+              {console.log(card.url)}
               <Card.Img
                 variant="top"
                 src={card.src}
