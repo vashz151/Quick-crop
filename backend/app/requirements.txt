@@ -1,0 +1,7 @@
+flask
+numpy 
+pandas
+requests
+api
+pickle
+json
