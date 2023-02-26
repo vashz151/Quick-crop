@@ -4,22 +4,18 @@ import React, { useState } from "react";
 import logo from "../images/logo.svg";
 import "../css/navbar.css";
 function NavBar() {
-  let [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   return (
     <div style={{ marginBottom: "18px" }}>
       <Navbar
         bg="dark"
         variant="dark"
         fixed="top"
-        expand="lg"
+        expand="md"
         expanded={expanded}
       >
         <Container fluid>
-          <img
-            id="logo"
-            src={logo}
-            alt="logo"
-          />
+          <img id="logo" src={logo} alt="logo" />
           <Navbar.Toggle
             aria-controls="navbarScroll"
             onClick={() => setExpanded(expanded ? false : true)}
