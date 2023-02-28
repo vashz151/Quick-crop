@@ -3,17 +3,68 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loading from "./Loading";
+import axios from "axios";
 const News = (props) => {
   const [results, setresults] = useState([]);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
+  const [images, setImages] = React.useState([]);
+  let i = 0;
+  React.useEffect(() => {
+    axios
+      .get("https://api.unsplash.com/search/photos", {
+        params: { query: "News" },
+        headers: {
+          Authorization: `Client-ID ${props.apikey}`,
+        },
+      })
+      .then((response) => {
+        setImages(response.data.results);
+      });
+  }, [props.apikey]);
   const updateNews = async () => {
-    // const url = `https://newsdata.io/api/1/news?apikey=${props.apikey}&q=${props.keywords}&country=${props.country}&language=${props.language}&page=${page}`;
     const url = "https://quickcrop.onrender.com/news?page=" + page;
     let data = await fetch(url);
     let parsedData = await data.json();
-    console.log(parsedData);
-    setresults(parsedData.results);
+    let filteredData = parsedData.results.filter((item) => {
+      let count = 0;
+      let description = item.description;
+      if (description === null) {
+        return null;
+      }
+      description = description.toLowerCase();
+      let words = [
+        "agriculture",
+        "farming",
+        "farmer",
+        "farmers",
+        "crop",
+        "crops",
+        "farmland",
+        "farmlands",
+        "farm",
+        "farms",
+        "agricultural",
+        "agriculture",
+        "agriculturalist",
+      ];
+      for (let j = 0; j < words.length; j++) {
+        if (description.includes(words[j]) === true) {
+          let re = new RegExp(words[j], "g");
+          let matches = description.match(re);
+          count += matches.length;
+        }
+      }
+      if (item.language === "hindi") {
+        return item;
+      }
+      if (count >= 1) {
+        return item;
+      } else {
+        return null;
+      }
+    }); //end of filter
+    setresults(filteredData);
     setPage(parsedData.nextPage);
     setTotalResults(parsedData.totalResults);
   };
@@ -28,8 +79,46 @@ const News = (props) => {
     const url = "https://quickcrop.onrender.com/news?page=" + page;
     let data = await fetch(url);
     let parsedData = await data.json();
+    let filteredData = parsedData.results.filter((item) => {
+      let count = 0;
+      let description = item.description;
+      if (description === null) {
+        return null;
+      }
+      description = description.toLowerCase();
+      let words = [
+        "agriculture",
+        "farming",
+        "farmer",
+        "farmers",
+        "crop",
+        "crops",
+        "farmland",
+        "farmlands",
+        "farm",
+        "farms",
+        "agricultural",
+        "agriculture",
+        "agriculturalist",
+      ];
+      for (let j = 0; j < words.length; j++) {
+        if (description.includes(words[j]) === true) {
+          let re = new RegExp(words[j], "g");
+          let matches = description.match(re);
+          count += matches.length;
+        }
+      }
+      if (item.language === "hindi") {
+        return item;
+      }
+      if (count >= 1) {
+        return item;
+      } else {
+        return null;
+      }
+    }); //end of filter
+    setresults(results.concat(filteredData));
     setPage(parsedData.nextPage);
-    setresults(results.concat(parsedData.results));
     setTotalResults(parsedData.totalResults);
   };
   return (
@@ -46,7 +135,7 @@ const News = (props) => {
       <InfiniteScroll
         dataLength={results.length}
         next={fetchMoreData}
-        hasMore={results.length !== totalResults - 10}
+        hasMore={results.length !== totalResults - 5}
         loader={<Loading />}
       >
         <div className="container">
@@ -55,7 +144,9 @@ const News = (props) => {
               return (
                 <div className="col" key={item.link}>
                   <NewsItem
-                    image_url={item.image_url}
+                    image_url={
+                      item.image_url ? item.image_url : images[i++].urls.small
+                    }
                     title={item.title ? item.title : ""}
                     description={item.description ? item.description : ""}
                     link={item.link}

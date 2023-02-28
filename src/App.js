@@ -11,8 +11,9 @@ import CropRecommend from "./components/CropRecommend";
 import CropYield from "./components/CropYield";
 function App() {
   // const apikey = "";
-  const apikey = "pub_11366f387421e2f181d6a0b3458d824e857bf"; //mihir's apikey
-  const apikey1 = "noqxKapuU84tzbRRDssdOwR_zzk12HrIaawj1sOAwLo";
+  // const apikey = "pub_11366f387421e2f181d6a0b3458d824e857bf"; //mihir's apikey
+  // const apikey1 = "noqxKapuU84tzbRRDssdOwR_zzk12HrIaawj1sOAwLo";
+  const apikey1 = "-se3y0ZFhTHErqgA4LZQ24AyFfJjkCzIuzzF2ifezPM";
   // const apikey1 = process.env.UNSPLASH_API_KEY;
   // const apikey=process.env.REACT_APP_NEWS_DATAA;
   return (
@@ -29,7 +30,7 @@ function App() {
             element={<CropRecommend apikey={apikey1} />}
           ></Route>
           <Route exact path="/crop-yield" element={<CropYield />}></Route>
-          <Route exact path="/news" element={<News apikey={apikey} />}></Route>
+          <Route exact path="/news" element={<News apikey={apikey1} />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>

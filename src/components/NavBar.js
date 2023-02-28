@@ -6,7 +6,7 @@ import "../css/navbar.css";
 function NavBar() {
   const [expanded, setExpanded] = useState(false);
   return (
-    <div style={{ marginBottom: "18px" }}>
+    <div style={{ marginBottom: "25px" }}>
       <Navbar
         bg="dark"
         variant="dark"
