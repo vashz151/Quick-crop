@@ -4,7 +4,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import About from "./components/About";
-// import News from "./components/News";
+import News from "./components/News";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import CropRecommend from "./components/CropRecommend";
@@ -29,7 +29,7 @@ function App() {
             element={<CropRecommend apikey={apikey1} />}
           ></Route>
           <Route exact path="/crop-yield" element={<CropYield />}></Route>
-          {/* <Route exact path="/news" element={<News apikey={apikey} />}></Route> */}
+          <Route exact path="/news" element={<News />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
