@@ -24,8 +24,8 @@ const News = (props) => {
   }, [props.apikey]);
   const updateNews = async () => {
     const url = "https://quickcrop.onrender.com/news?page=" + page;
-    let data = await fetch(url);
-    let parsedData = await data.json();
+    let response = await axios.get(url);
+    let parsedData = response.data;
     let filteredData = parsedData.results.filter((item) => {
       let count = 0;
       let description = item.description;
@@ -77,8 +77,8 @@ const News = (props) => {
 
   const fetchMoreData = async () => {
     const url = "https://quickcrop.onrender.com/news?page=" + page;
-    let data = await fetch(url);
-    let parsedData = await data.json();
+    let response = await axios.get(url);
+    let parsedData = response.data;
     let filteredData = parsedData.results.filter((item) => {
       let count = 0;
       let description = item.description;

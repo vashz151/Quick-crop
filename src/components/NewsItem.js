@@ -53,11 +53,11 @@ const NewsItem = (props) => {
       />
       <div
         className="card-body d-flex flex-column"
-        style={{ backgroundColor: "#332d2d", border: "1px solid white" }}
+        style={{ backgroundColor: "white", border: "1px solid white" }}
       >
-        <h5 className="card-title text-white">{title}</h5>
+        <h5 className="card-title text-black">{title}</h5>
         <p
-          className="card-text text-truncate text-white"
+          className="card-text text-truncate text-black"
           style={{ overflow: "hidden" }}
         >
           {description}
