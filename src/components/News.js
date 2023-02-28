@@ -8,8 +8,8 @@ const News = (props) => {
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const updateNews = async () => {
-    const url = `https://newsdata.io/api/1/news?apikey=${props.apikey}&q=${props.keywords}&country=${props.country}&language=${props.language}`;
-    // const url = "https://quickcrop.onrender.com/news?page=" + page;
+    // const url = `https://newsdata.io/api/1/news?apikey=${props.apikey}&q=${props.keywords}&country=${props.country}&language=${props.language}&page=${page}`;
+    const url = "https://quickcrop.onrender.com/news?page=" + page;
     let data = await fetch(url);
     let parsedData = await data.json();
     console.log(parsedData);
