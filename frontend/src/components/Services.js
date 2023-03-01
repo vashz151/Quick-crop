@@ -42,6 +42,7 @@ function Services() {
               bg="light"
               onClick={() => navigate(card.url)}
             >
+              {console.log(card.url)}
               <Card.Img
                 variant="top"
                 src={card.src}

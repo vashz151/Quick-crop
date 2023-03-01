@@ -1,26 +1,13 @@
 import React from "react";
 const NewsItem = (props) => {
-  const format = {
-    weekday: "long",
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-    hour12: false,
-  };
-  let { title, link, description, image_url, source_id, creator, pubDate } =
-    props;
   const image =
     "https://images.hindustantimes.com/img/2022/09/17/550x309/WhatsApp_Image_2021-09-18_at_09.42.18_1631944439782_1663372914274_1663372914274.jpeg";
+  let { title, link, description, image_url, source_id, creator, pubDate } =
+    props;
   return (
     <div
       className="card h-100 text-bg-secondary mb-3"
       style={{ backgroundColor: "black" }}
-      onClick={() => {
-        window.open(link, "_blank");
-      }}
     >
       <div
         style={{
@@ -45,7 +32,6 @@ const NewsItem = (props) => {
         }}
         src={image_url ? image_url : image}
         onError={(e) => {
-          e.target.onerror = null;
           e.target.src = image;
         }}
         className="card-img-top"
@@ -53,11 +39,11 @@ const NewsItem = (props) => {
       />
       <div
         className="card-body d-flex flex-column"
-        style={{ backgroundColor: "white", border: "1px solid white" }}
+        style={{ backgroundColor: "#332d2d", border: "1px solid white" }}
       >
-        <h5 className="card-title text-black">{title}</h5>
+        <h5 className="card-title text-white">{title}</h5>
         <p
-          className="card-text text-truncate text-black"
+          className="card-text text-truncate text-white"
           style={{ overflow: "hidden" }}
         >
           {description}
@@ -74,8 +60,8 @@ const NewsItem = (props) => {
       </div>
       <div className="card-footer">
         <small className="text-light">
-          By {!creator ? "Anonymous" : creator} on{" "}
-          {new Date(pubDate).toLocaleString("en-IN", format)} IST
+          By {!creator ? "Unknown" : creator} on{" "}
+          {new Date(pubDate).toGMTString()}
         </small>
       </div>
     </div>
