@@ -69,9 +69,9 @@ const News = (props) => {
     setTotalResults(parsedData.totalResults);
   };
   useEffect(() => {
-    return () => {
+    // return () => {
       updateNews();
-    };
+    // };
     // eslint-disable-next-line
   }, []);
 
