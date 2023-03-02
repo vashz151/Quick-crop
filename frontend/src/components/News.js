@@ -8,22 +8,26 @@ const News = (props) => {
   const [results, setresults] = useState([]);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
-  const [images, setImages] = React.useState([]);
-  let i = 0;
-  React.useEffect(() => {
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
     axios
       .get("https://api.unsplash.com/search/photos", {
-        params: { query: "News" },
+        params: { query: "Breaking News", per_page: 30 },
         headers: {
           Authorization: `Client-ID ${props.apikey}`,
         },
       })
       .then((response) => {
         setImages(response.data.results);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-  }, [props.apikey]);
+    // eslint-disable-next-line
+  }, []);
   const updateNews = async () => {
-    const url = "https://quickcrop.onrender.com/news?page=" + page;
+    const url = "/news?page=" + page;
     let response = await axios.get(url);
     let parsedData = response.data;
     let filteredData = parsedData.results.filter((item) => {
@@ -55,36 +59,33 @@ const News = (props) => {
           count += matches.length;
         }
       }
-      if (item.language === "hindi") {
-        return item;
-      }
-      if (count >= 1) {
+      if (item.language === "hindi" || count >= 1) {
         return item;
       } else {
         return null;
       }
-    }); //end of filter
+    });
     setresults(filteredData);
     setPage(parsedData.nextPage);
     setTotalResults(parsedData.totalResults);
   };
   useEffect(() => {
-    // return () => {
-      updateNews();
-    // };
+    updateNews();
     // eslint-disable-next-line
   }, []);
 
   const fetchMoreData = async () => {
-    const url = "https://quickcrop.onrender.com/news?page=" + page;
-    let response = await axios.get(url);
-    let parsedData = response.data;
-    let filteredData = parsedData.results.filter((item) => {
+    const url = "/news?page=" + page;
+    let data = await axios.get(url).then((response) => {
+      return response.data;
+    });
+    let parsedData = await data.results;
+    let filteredData = parsedData.filter((item) => {
       let count = 0;
-      let description = item.description;
-      if (description === null) {
+      if (item.description === null) {
         return null;
       }
+      let description = item.description;
       description = description.toLowerCase();
       let words = [
         "agriculture",
@@ -108,18 +109,15 @@ const News = (props) => {
           count += matches.length;
         }
       }
-      if (item.language === "hindi") {
-        return item;
-      }
-      if (count >= 1) {
+      if (item.language === "hindi" || count >= 1) {
         return item;
       } else {
         return null;
       }
-    }); //end of filter
+    });
     setresults(results.concat(filteredData));
-    setPage(parsedData.nextPage);
-    setTotalResults(parsedData.totalResults);
+    setPage(data.nextPage);
+    setTotalResults(data.totalResults);
   };
   return (
     <>
@@ -140,15 +138,18 @@ const News = (props) => {
       >
         <div className="container">
           <div className="row row-cols-1 row-cols-md-3 g-4 ">
-            {results.map((item) => {
+            {results.map((item, index) => {
+              if (item.image_url !== null) {
+              } else if (images[index] !== null) {
+                // item.image_url = images[index].urls.small;
+              }
               return (
                 <div className="col" key={item.link}>
                   <NewsItem
-                    image_url={
-                      item.image_url ? item.image_url : images[i++].urls.small
-                    }
+                    image_url={item.image_url}
                     title={item.title ? item.title : ""}
-                    description={item.description ? item.description : ""}
+                    des
+                    cription={item.description ? item.description : ""}
                     link={item.link}
                     creator={item.creator}
                     source_id={item.source_id}
@@ -172,5 +173,4 @@ News.propTypes = {
   country: PropTypes.string,
   apikey: PropTypes.string,
 };
-
 export default News;

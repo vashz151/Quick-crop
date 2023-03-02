@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "homepage": "https://vashz151github.io",
   "private": true,
-  "proxy": "http://127.0.0.1:5000",
+  "proxy1": "http://127.0.0.1:5000",
+  "proxy": "https://quickcrop.onrender.com",
   "dependencies": {
     "@emailjs/browser": "^3.10.0",
     "@testing-library/jest-dom": "^5.16.5",
