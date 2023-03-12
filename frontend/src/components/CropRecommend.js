@@ -31,7 +31,7 @@ function CropRecommend(props) {
   const handlePredict = (event) => {
     event.preventDefault();
     const data = formdata;
-    fetch("/crop-predict", {
+    fetch("https://quickcrop.onrender.com/crop-predict", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
