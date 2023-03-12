@@ -1,5 +1,6 @@
 import React from "react";
 import emailjs from "@emailjs/browser";
+import { BsGithub } from "react-icons/bs";
 function Footer() {
   const sendEmail = (e) => {
     e.preventDefault();
@@ -64,6 +65,7 @@ function Footer() {
             >
               Quick Crop is a free, open source project. It is licensed under
               the DJSCE license. The source code is available on GitHub.
+              <BsGithub size={20} style={{ marginLeft: "10px" }} />
             </a>
           </div>
           <div className="col-md-4 offset-md-3 mb-3 d-flex">

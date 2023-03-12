@@ -13,6 +13,7 @@ function BootstrapCarousel() {
       style={{
         width: "100%",
         verticalAlign: "center",
+        marginTop: "-5px",
       }}
       indicators={false}
       nextIcon={<img src={right} alt="right" height={"10%"} />}

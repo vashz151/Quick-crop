@@ -12,28 +12,37 @@ function Services() {
       title: "Crop Recommendation",
       src: s1,
       alt: "crop-recommend",
-      text: "Recommendation about the type of crops to be cultivated which is best suited for the respective conditions.",
+      text: "Our crop recommendation system uses advanced algorithms and machine learning techniques to analyze soil, weather, and crop data to recommend the best fertilizers and crop varieties for your farm.",
       url: "/crop-recommend",
     },
     card2: {
       title: "Crop Yield Prediction",
       src: s2,
       alt: "crop-yield-prediction",
-      text: "Prediction about the yield of the crop to be cultivated which is best suited for the respective conditions.",
+      text: "Our platform uses advanced algorithms and machine learning to provide accurate predictions of crop yield based on a range of factors, including weather, soil conditions, and crop type.",
       url: "/crop-yield",
     },
     card3: {
       title: "Fertilizer Recommendation",
       src: s3,
       alt: "fertilizer-recommend",
-      text: "Recommendation about the type of fertilizer to be used which is best suited for the respective conditions.",
+      text: "Our personalized fertilizer recommendations uses advanced algorithms are based on the specific needs of each crop, taking into account factors such as soil nutrient levels, crop type, and weather conditions.",
       url: "/fertilizer-recommend",
     },
   };
   const navigate = useNavigate();
   return (
     <div style={{ width: "99%" }}>
-      <h1 style={{ textAlign: "center", marginTop: "5px" }}>Our Services</h1>
+      <h2
+        style={{
+          textAlign: "inherit",
+          fontSize: "40px",
+          marginBottom: "30px",
+          fontWeight: "700",
+        }}
+      >
+        Our Services
+      </h2>
       <Row xs={1} md={3} className="g-2" style={{ color: "black" }}>
         {Object.values(cards).map((card, idx) => (
           <Col key={idx}>

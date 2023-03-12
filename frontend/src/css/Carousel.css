@@ -1,6 +1,6 @@
 .adjust {
   width: 100%;
-  height: 40rem;
+  height: 41rem;
 }
 
 .whiteAdjust {
@@ -16,24 +16,24 @@
   color: #fff;
   text-align: center;
 }
-.cap p{
+.cap p {
   padding-top: 5px;
 }
 @media (max-width: 970px) {
-  .adjust{
+  .adjust {
     height: 30rem;
   }
   .whiteAdjust {
     color: white;
   }
-  .anchoradjust a{
+  .anchoradjust a {
     color: white;
   }
-  .cap{
+  .cap {
     bottom: 0;
     height: 10rem;
   }
-  .cap p{
+  .cap p {
     padding-top: 5px;
   }
 }

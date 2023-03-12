@@ -1,22 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/cr.css";
-import axios from "axios";
+import { fetchImages } from "../api/Unsplash";
 function CropResult(props) {
   const navigate = useNavigate();
   const [results, setResults] = React.useState([]);
-  //fetch the data from unsplash api using axios
   React.useEffect(() => {
-    axios
-      .get("https://api.unsplash.com/search/photos", {
-        params: { query: props.prediction },
-        headers: {
-          Authorization: `Client-ID ${props.apikey}`,
-        },
-      })
-      .then((response) => {
-        setResults(response.data.results);
-      });
+    const updateImages = async () => {
+      const data = await fetchImages(1, 5, props.apikey, props.prediction);
+      setResults(data);
+    };
+    updateImages();
   }, [props.prediction, props.apikey]);
 
   return (
