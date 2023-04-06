@@ -6,6 +6,7 @@ function CropRecommend(props) {
   var season = ["Summer", "Kharif", "Autumn", "Rabi", "Winter", "Annual"];
   const [state, setState] = React.useState("Select State");
   const [show, setShow] = React.useState(false);
+  const [chartData, setChartData] = React.useState(null);
   const [prediction, setPrediction] = React.useState("");
   const handleChange = (event) => {
     setState(event.target.value);
@@ -29,9 +30,11 @@ function CropRecommend(props) {
     });
   };
   const handlePredict = (event) => {
+    const baseUrl = "https://quickcrop.onrender.com";
+    console.log(baseUrl);
     event.preventDefault();
     const data = formdata;
-    fetch("https://quickcrop.onrender.com/crop-predict", {
+    fetch(baseUrl + "/crop-predict", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -45,6 +48,7 @@ function CropRecommend(props) {
           data.response.result.temperature;
         document.getElementById("hum").value = data.response.result.humidity;
         document.getElementById("rain").value = data.response.result.rainfall;
+        setChartData(data.response.result.chart_data);
         setShow(true);
         setPrediction(data.response.result.prediction);
       });
@@ -72,6 +76,7 @@ function CropRecommend(props) {
               placeholder="Enter the value (example:50)"
               required
               onChange={handleFormChange}
+              autoFocus
             />
           </div>
           <div className="form-group">
@@ -148,7 +153,6 @@ function CropRecommend(props) {
               onChange={handleChange}
               required
             >
-              {/* take options from state arr */}
               {Object.keys(state_arr).map((item, index) => (
                 <option value={item} key={index}>
                   {item}
@@ -227,7 +231,13 @@ function CropRecommend(props) {
           </div>
         </form>
       </div>
-      {show && <CropResult apikey={props.apikey} prediction={prediction} />}
+      {show && (
+        <CropResult
+          apikey={props.apikey}
+          chartData={chartData}
+          prediction={prediction}
+        />
+      )}
     </>
   );
 }

@@ -9,7 +9,9 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import CropRecommend from "./components/CropRecommend";
 import CropYield from "./components/CropYield";
-
+import BlogPostPage from "./components/BlogPostPage";
+import BlogCard from "./components/BlogCard";
+import Fertilizer from "./components/Fertilizer";
 function App() {
   // const apikey = "";
   // const apikey = "pub_11366f387421e2f181d6a0b3458d824e857bf"; //mihir's apikey
@@ -32,6 +34,13 @@ function App() {
             element={<CropRecommend apikey={apikey1} />}
           ></Route>
           <Route exact path="/crop-yield" element={<CropYield />}></Route>
+          <Route
+            exact
+            path="/fertilizer-recommend"
+            element={<Fertilizer />}
+          ></Route>
+          <Route exact path="/blogs" element={<BlogCard />}></Route>
+          <Route exact path="/blogs/:id" element={<BlogPostPage />}></Route>
           <Route exact path="/news" element={<News apikey={apikey1} />}></Route>
         </Routes>
         <Footer />

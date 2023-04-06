@@ -13,9 +13,7 @@ function NavBar() {
         {
           pageLanguage: "en",
           autoDisplay: false,
-          //the default option in select should be english
-          targetLanguage: "hi",
-          includedLanguages: "en,hi,gu,ta,te,ml,kn,pa,or,bn,as,ur",
+          includedLanguages: "en,hi,gu,ta,te,ml,kn,pa,or,bn,as,ur,mr",
         },
         "google_translate_element"
       );
@@ -32,7 +30,53 @@ function NavBar() {
     window.googleTranslateElementInit = googleTranslateElementInit;
     // eslint-disable-next-line
   }, []);
-
+  const langaugeselector = () => {
+    setExpanded(!expanded);
+    var x = document.getElementById("google_translate_element");
+    var y = x.getElementsByTagName("select")[0];
+    var z = y.getElementsByTagName("option");
+    for (var i = 0; i < z.length; i++) {
+      if (z[i].innerHTML === "Hindi") {
+        z[i].innerHTML = "हिंदी";
+      }
+      if (z[i].innerHTML === "Select Language") {
+        z[i].innerHTML = "English";
+      }
+      if (z[i].innerHTML === "Telugu") {
+        z[i].innerHTML = "తెలుగు";
+      }
+      if (z[i].innerHTML === "Tamil") {
+        z[i].innerHTML = "தமிழ்";
+      }
+      if (z[i].innerHTML === "Kannada") {
+        z[i].innerHTML = "ಕನ್ನಡ";
+      }
+      if (z[i].innerHTML === "Marathi") {
+        z[i].innerHTML = "मराठी";
+      }
+      if (z[i].innerHTML === "Punjabi") {
+        z[i].innerHTML = "ਪੰਜਾਬੀ";
+      }
+      if (z[i].innerHTML === "Odia (Oriya)") {
+        z[i].innerHTML = "ଓଡ଼ିଆ";
+      }
+      if (z[i].innerHTML === "Bengali") {
+        z[i].innerHTML = "বাংলা";
+      }
+      if (z[i].innerHTML === "Assamese") {
+        z[i].innerHTML = "অসমীয়া";
+      }
+      if (z[i].innerHTML === "Urdu") {
+        z[i].innerHTML = "اردو";
+      }
+      if (z[i].innerHTML === "Gujarati") {
+        z[i].innerHTML = "ગુજરાતી";
+      }
+      if (z[i].innerHTML === "Malayalam") {
+        z[i].innerHTML = "മലയാളം";
+      }
+    }
+  };
   const [expanded, setExpanded] = useState(false);
   return (
     <div id="navdiv">
@@ -73,6 +117,15 @@ function NavBar() {
               </Nav.Link>
               <Nav.Link
                 as={Link}
+                to="/blogs"
+                bsPrefix="nav-link active"
+                onClick={() => setExpanded(false)}
+                onBlur={() => setExpanded(false)}
+              >
+                Blogs
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
                 to="/news"
                 bsPrefix="nav-link active"
                 onClick={() => setExpanded(false)}
@@ -82,7 +135,12 @@ function NavBar() {
               </Nav.Link>
             </Nav>
             <div className="flex-container">
-              <div id="google_translate_element" className="flex-items"></div>
+              <div
+                id="google_translate_element"
+                className="flex-items"
+                onClick={langaugeselector}
+                onBlur={() => setExpanded(false)}
+              ></div>
               <img
                 src={translate}
                 alt="translate"

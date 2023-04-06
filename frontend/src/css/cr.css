@@ -4,6 +4,7 @@
   margin: 0px auto;
   border-radius: 25px;
   padding: 10px 10px;
+  margin-bottom: 150px;
 }
 label {
   font-size: 17px;
@@ -17,6 +18,9 @@ select {
   font-weight: bold;
   color: black;
 }
+.fert {
+  margin-bottom: 200px;
+}
 .crbtn {
   margin-top: 20px;
   font-weight: bold;
@@ -26,12 +30,38 @@ select {
   font-size: 21px;
   margin-right: 10px;
 }
-#img {
-  width: 20%;
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: center;
+}
+
+.flex-items:nth-child(1) {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+}
+
+.flex-items:nth-child(2) {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+}
+.img {
+  width: 350px;
+  height: 350px;
   border-radius: 25px;
-  position: relative;
-  left: 40%;
-  margin-top: 30px;
+  margin: 10px auto;
+  margin-left: 30px;
 }
 #crdiv {
   margin-left: 25px;
@@ -40,11 +70,42 @@ select {
   font-size: 18pt;
   margin-bottom: 5px;
 }
+
 @media screen and (max-width: 600px) {
+  .cr {
+    width: 80%;
+  }
   #img {
     width: 70%;
     position: relative;
-    left: 15%;
+    margin: 0px auto;
     margin-top: 10px;
+  }
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+    align-content: center;
+  }
+
+  .flex-items:nth-child(1) {
+    display: block;
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: auto;
+    align-self: auto;
+    order: 0;
+  }
+
+  .flex-items:nth-child(2) {
+    display: block;
+    width: 250px;
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: auto;
+    align-self: auto;
+    order: 0;
   }
 }

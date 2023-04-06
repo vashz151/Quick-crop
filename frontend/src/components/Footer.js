@@ -1,24 +1,24 @@
 import React from "react";
-import emailjs from "@emailjs/browser";
 import { BsGithub } from "react-icons/bs";
+import { sendMessage } from "../api/Twillio.js";
+import OtpModal from "./OtpModal.js";
 function Footer() {
-  const sendEmail = (e) => {
+  const [otp, setOtp] = React.useState("");
+  const [show, setShow] = React.useState(false);
+  const [details, setDetails] = React.useState();
+  const sendOtp = (e) => {
     e.preventDefault();
-
-    emailjs
-      .sendForm("quickcrop", "quickcrop_temp", e.target, "kgWSv7mKn7T812rbf")
-      .then(
-        (result) => {
-          alert("Thank you for subscribing to our newsletter!");
-        },
-        (error) => {
-          alert("Something went wrong. Please try again later.");
-        }
-      );
+    const data = sendMessage(e.target[1].value);
+    data.then((res) => {
+      setOtp(res.response.otp);
+      setShow(true);
+      setDetails(e.target);
+    });
   };
 
   return (
-    <div className="container" style={{ width: "80%" }}>
+    <div className="container" style={{ width: "80%", position: "relative" }}>
+      {show && <OtpModal otp={otp} details={details} />}
       <footer className="py-5">
         <div className="row-md-4 mb-3 d-flex flex-column flex-sm-row justify-content-start">
           <div className="col-md-2 mb-3 flex-column flex-sm-row">
@@ -30,27 +30,30 @@ function Footer() {
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="/" className="nav-link p-0 text-light">
+                <a href="/crop-recommend" className="nav-link p-0 text-light">
                   Crop Recommend
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="/" className="nav-link p-0 text-light">
+                <a href="/crop-yield" className="nav-link p-0 text-light">
                   Yield Prediction
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="/" className="nav-link p-0 text-light">
+                <a
+                  href="/fertilizer-recommend"
+                  className="nav-link p-0 text-light"
+                >
                   Fertilizer Recommendation
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="/" className="nav-link p-0 text-light">
+                <a href="/about" className="nav-link p-0 text-light">
                   About
                 </a>
               </li>
               <li className="nav-item mb-2">
-                <a href="/" className="nav-link p-0 text-light">
+                <a href="/news" className="nav-link p-0 text-light">
                   News
                 </a>
               </li>
@@ -69,7 +72,7 @@ function Footer() {
             </a>
           </div>
           <div className="col-md-4 offset-md-3 mb-3 d-flex">
-            <form onSubmit={sendEmail}>
+            <form onSubmit={sendOtp}>
               <h5>Subscribe to our newsletter</h5>
               <p>Monthly digest of what's new and exciting from us.</p>
 
@@ -84,6 +87,18 @@ function Footer() {
                   className="form-control"
                   placeholder="Enter Name"
                 />
+                <label htmlFor="mobile" className="visually-hidden">
+                  Mobile
+                </label>
+                <input
+                  id="mobile"
+                  type="tel"
+                  name="mobile"
+                  className="form-control"
+                  placeholder="Enter Mobile Number"
+                />
+              </div>
+              <div style={{ paddingTop: "15px" }}>
                 <label htmlFor="email" className="visually-hidden">
                   Email address
                 </label>
@@ -92,9 +107,10 @@ function Footer() {
                   name="email"
                   type="email"
                   className="form-control"
-                  placeholder="Email address"
+                  placeholder="Enter Email address"
                 />
               </div>
+
               <button
                 className="btn btn-secondary btn-lg btn-block"
                 type="submit"
@@ -121,31 +137,6 @@ function Footer() {
           &copy; 2022 Quick Crop, Inc. <br />
           All rights reserved.
         </h6>
-        <div>
-          <ul className="list-unstyled d-flex">
-            <li className="ms-3">
-              <a className="link-dark" href="/">
-                <svg className="bi" width="24" height="24">
-                  <use xlinkHref="#twitter" />
-                </svg>
-              </a>
-            </li>
-            <li className="ms-3">
-              <a className="link-dark" href="/">
-                <svg className="bi" width="24" height="24">
-                  <use xlinkHref="#instagram" />
-                </svg>
-              </a>
-            </li>
-            <li className="ms-3">
-              <a className="link-dark" href="/">
-                <svg className="bi" width="24" height="24">
-                  <use xlinkHref="#facebook" />
-                </svg>
-              </a>
-            </li>
-          </ul>
-        </div>
       </footer>
     </div>
   );

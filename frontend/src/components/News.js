@@ -29,7 +29,6 @@ const News = (props) => {
     "agriculture",
     "agriculturalist",
   ];
-  console.log(results);
   const filterData = (parsedData) => {
     let filteredData = parsedData.results.filter((item) => {
       let count = 0;
@@ -101,8 +100,7 @@ const News = (props) => {
       <h1
         style={{
           textAlign: "center",
-          marginTop: "1.2rem",
-          marginBottom: "1.4rem",
+          marginTop: "1.4rem",
         }}
       >
         Headlines
@@ -136,8 +134,7 @@ const News = (props) => {
                   <NewsItem
                     image_url={item.image_url}
                     title={item.title ? item.title : ""}
-                    des
-                    cription={item.description ? item.description : ""}
+                    description={item.description ? item.description : ""}
                     link={item.link}
                     creator={item.creator}
                     source_id={item.source_id}

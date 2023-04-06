@@ -5,7 +5,7 @@ import about from "../images/about.jpeg";
 import mission from "../images/mission.jpeg";
 import c1 from "../images/t1.jpg";
 import c2 from "../images/t2.jpg";
-import c3 from "../images/c3.jpg";
+import c3 from "../images/t3.jpg";
 import Services from "./Services";
 import github from "../images/github.gif";
 import linkedin from "../images/linkedin.gif";
@@ -113,7 +113,8 @@ const About = () => {
                 <a
                   href="https://www.linkedin.com/in/vashisth-zatakia/"
                   target={"_blank"}
-                   rel="noreferrer"                >
+                  rel="noreferrer"
+                >
                   <img
                     src={linkedin}
                     alt="linkedin"
@@ -134,7 +135,8 @@ const About = () => {
                 <a
                   href="https://github.com/RahulK142002"
                   target={"_blank"}
-                   rel="noreferrer"                >
+                  rel="noreferrer"
+                >
                   <img
                     src={github}
                     alt="github"
@@ -148,7 +150,8 @@ const About = () => {
                 <a
                   href="https://www.linkedin.com/in/rahul-kapadia-577058220/"
                   target={"_blank"}
-                   rel="noreferrer"                >
+                  rel="noreferrer"
+                >
                   <img
                     src={linkedin}
                     alt="linkedin"
@@ -169,7 +172,8 @@ const About = () => {
                 <a
                   href="https://github.com/sLaYerUnleAsheD"
                   target={"_blank"}
-                   rel="noreferrer"                >
+                  rel="noreferrer"
+                >
                   <img
                     src={github}
                     alt="github"
@@ -181,9 +185,10 @@ const About = () => {
                   />
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/"
+                  href="https://www.linkedin.com/in/mihir-panchal-24440a209"
                   target={"_blank"}
-                   rel="noreferrer"                >
+                  rel="noreferrer"
+                >
                   <img
                     src={linkedin}
                     alt="linkedin"

@@ -37,7 +37,7 @@ function Services() {
         style={{
           textAlign: "inherit",
           fontSize: "40px",
-          marginBottom: "30px",
+          margin: "20px", 
           fontWeight: "700",
         }}
       >

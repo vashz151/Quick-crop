@@ -2,7 +2,8 @@ import React from "react";
 import "../css/cr.css";
 import state_arr from "./state.json";
 import crop_arr from "./crop.json";
-function CropYield(props) {
+import CropYieldResult from "./CropYieldResult";
+function CropYield() {
   var season = ["Summer", "Kharif", "Autumn", "Rabi", "Winter", "Annual"];
   const [state, setState] = React.useState("Select State");
   const [show, setShow] = React.useState(false);
@@ -28,8 +29,9 @@ function CropYield(props) {
   };
   const handlePredict = (event) => {
     event.preventDefault();
+    const baseUrl = "https://quickcrop.onrender.com";
     const data = formdata;
-    fetch("/crop-yield-predict", {
+    fetch(baseUrl + "/crop-yield-predict", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -40,9 +42,11 @@ function CropYield(props) {
       .then((res) => res.json())
       .then((data) => {
         document.getElementById("temp").value =
-          data.response.result.temperature;
-        document.getElementById("hum").value = data.response.result.humidity;
-        document.getElementById("rain").value = data.response.result.rainfall;
+          data.response.result.temperature + " °C";
+        document.getElementById("hum").value =
+          data.response.result.humidity + " %";
+        document.getElementById("rain").value =
+          data.response.result.rainfall + " mm";
         setShow(true);
         setPrediction(data.response.result.prediction);
       });
@@ -79,14 +83,14 @@ function CropYield(props) {
           </div>
           <div className="form-group">
             <label htmlFor="area">
-              <b>Area</b>
+              <b>Area (in kg)</b>
             </label>
             <input
               type="number"
               className="form-control"
               id="area"
               name="area"
-              placeholder="Enter the value (in ha)"
+              placeholder="Enter the value"
               required
               onChange={handleFormChange}
             />
@@ -121,7 +125,6 @@ function CropYield(props) {
               onChange={handleChange}
               required
             >
-              {/* take options from state arr */}
               {Object.keys(state_arr).map((item, index) => (
                 <option value={item} key={index}>
                   {item}
@@ -148,7 +151,7 @@ function CropYield(props) {
           </div>
           <div className="form-group">
             <label htmlFor="temp">
-              <b>Temperature</b>
+              <b>Temperature (in °C)</b>
             </label>
             <input
               className="form-control"
@@ -160,7 +163,7 @@ function CropYield(props) {
           </div>
           <div className="form-group">
             <label htmlFor="hum">
-              <b>Humidity</b>
+              <b>Humidity (in %)</b>
             </label>
             <input
               className="form-control"
@@ -172,7 +175,7 @@ function CropYield(props) {
           </div>
           <div className="form-group">
             <label htmlFor="rain">
-              <b>Rainfall</b>
+              <b>Rainfall (in mm)</b>
             </label>
             <input
               className="form-control"
@@ -199,8 +202,14 @@ function CropYield(props) {
             </button>
           </div>
         </form>
+        {show && (
+          <CropYieldResult
+            prediction={prediction}
+            area={formdata.area}
+            crop={formdata.crop}
+          />
+        )}
       </div>
-      {show && <label>{prediction}</label>}
     </>
   );
 }
