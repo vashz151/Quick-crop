@@ -1,8 +1,23 @@
 import pickle
+from weather import weather_fetch
+from rain import rain_info
 fertilizer_model = pickle.load(open('./Models/Fertilizer.pkl', 'rb'))
 
 
-def fertilizer_prediction(data):
+def fertilizer_prediction(formdata):
+    rainfall_data = rain_info()
+    N = formdata['nitrogen']
+    P = formdata['phosphorous']
+    K = formdata['pottasium']
+    ph = formdata['ph']
+    season = formdata['season']
+    crop = formdata['crop']
+    moisture = formdata['moisture']
+    soil = formdata['soil']
+    city = formdata['city']
+    temperature, humidity = weather_fetch(city)
+    rainfall = rainfall_data[rainfall_data["DIST"] == city][season].values[0]
+    data = [[temperature, humidity, moisture, soil, crop, N, P, K]]
     ans = fertilizer_model.predict(data)
     if ans[0] == 0:
         data = "10-26-26"
@@ -48,11 +63,11 @@ def fertilizer_prediction(data):
         desc2 = "Besides its use in the crops, it is used as a cattle feed supplement to replace a part of protein requirements."
         desc3 = "It has also numerous industrial uses notably for production of plastics. Presently all the Urea manufactured in the country is Neen coated."
         desc4 = "Urea is a raw material for the manufacture of two main classes of materials: urea-formaldehyde resins and urea-melamine-formaldehyde used in marine plywood."
-    json_data = {
+    my_prediction = {
         "data": data,
         "desc1": desc1,
         "desc2": desc2,
         "desc3": desc3,
         "desc4": desc4
     }
-    return (json_data)
+    return (my_prediction, temperature, humidity, rainfall)
