@@ -1,10 +1,4 @@
-import base64
-import io
 import pickle
-import matplotlib.pyplot as plt
-import matplotlib
-import numpy as np
-matplotlib.use('Agg')
 crop_recommendation_model_path = './Models/RandomForest.pkl'
 crop_recommendation_model = pickle.load(
     open(crop_recommendation_model_path, 'rb'))

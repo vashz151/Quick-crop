@@ -29,7 +29,7 @@ function CropYield() {
   };
   const handlePredict = (event) => {
     event.preventDefault();
-    const baseUrl = "https://quickcrop.onrender.com";
+    const baseUrl = "http://127.0.0.1:5000";
     const data = formdata;
     fetch(baseUrl + "/crop-yield-predict", {
       headers: {

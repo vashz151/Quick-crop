@@ -30,7 +30,7 @@ function CropRecommend(props) {
     });
   };
   const handlePredict = (event) => {
-    const baseUrl = "https://quickcrop.onrender.com";
+    const baseUrl = "http://127.0.0.1:5000";
     console.log(baseUrl);
     event.preventDefault();
     const data = formdata;
