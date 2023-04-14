@@ -1,9 +1,11 @@
 from newsdataapi import NewsDataApiClient
-import api
+import os
+from dotenv import load_dotenv
 
 
 def news_fetch(nextPage):
-    newsapi = NewsDataApiClient(apikey=api.newsdata_api_key)
+    load_dotenv()
+    newsapi = NewsDataApiClient(apikey=os.getenv('news_api_key'))
     if nextPage == "1":
         response = newsapi.news_api(
             country="in", q="Agricultutre OR Farming OR Farmers", language="en,hi")

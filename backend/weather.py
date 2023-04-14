@@ -1,9 +1,12 @@
 import requests
-import api
+import os
+from dotenv import load_dotenv
+
 
 def weather_fetch(city):
+    load_dotenv()
     city = city
-    api_key = api.weather_api_key
+    api_key = os.getenv("weather_api_key")
     base_url = "http://api.openweathermap.org/geo/1.0/direct?q={city_name}&appid={API_key}&limit=1"
     complete_url = base_url.format(city_name=city, API_key=api_key)
     response = requests.get(complete_url)

@@ -1,22 +1,37 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../css/BlogPostPage.css";
-import BlogContent from "./BlogContent";
 import authorImage from "../images/author.png";
 import Sidebar from "./Sidebar";
-// import Sidebar from "./Sidebar";
+import { fetchBlogs } from "../api/BlogsApi";
+import DOMPurify from "dompurify";
 
-function BlogPostPage({ posts }) {
+function BlogPostPage() {
   const { id } = useParams();
-  const post = BlogContent.find((post) => post.link === id);
+  const [post, setPost] = useState({});
+  const [BlogContent, setBlogContent] = useState([]);
+  useEffect(() => {
+    const fetchAPI = async () => {
+      await fetchBlogs().then((res) => {
+        setPost(res.response.result.find((posts) => posts["link"] === id));
+        console.log(res.response.result);
+        return res.response.result;
+      });
+    };
+    setBlogContent(fetchAPI());
+  }, [id]);
 
   return (
     <div className="container">
       <div className="row">
         <div className="col-md-8">
           <div className="post">
-            <img src={post.images[0]} alt={post.title} className="post-image" />
-            <h2 className="post-title">{post.title}</h2>
+            <img
+              src={post["image_1"]}
+              alt={post["title"]}
+              className="post-image"
+            />
+            <h2 className="post-title">{post["title"]}</h2>
             <div className="post-meta">
               <div className="post-meta-item post-author">
                 <img src={authorImage} alt="Author" />
@@ -29,20 +44,25 @@ function BlogPostPage({ posts }) {
               <div className="post-meta-item post-read-time">
                 <i className="far fa-clock"></i>
                 <span className="post-read-time-text">
-                  {post.readTime} read
+                  {post["read_time"]} read
                 </span>
               </div>
             </div>
 
-            <div className="post-content">{post.content}</div>
+            <div
+              className="post-content"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(post["content"]),
+              }}
+            ></div>
           </div>
         </div>
         <div className="col-md-4">
-          <Sidebar />
+          <Sidebar BlogContent={BlogContent} />
           <div>
             <img
-              src={post.images[1]}
-              alt={post.title}
+              src={post["image_2"]}
+              alt={post["title"]}
               className="post-image-2"
             />
           </div>

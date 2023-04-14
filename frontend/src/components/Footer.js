@@ -86,6 +86,7 @@ function Footer() {
                   name="name"
                   className="form-control"
                   placeholder="Enter Name"
+                  required
                 />
                 <label htmlFor="mobile" className="visually-hidden">
                   Mobile
@@ -96,6 +97,7 @@ function Footer() {
                   name="mobile"
                   className="form-control"
                   placeholder="Enter Mobile Number"
+                  required
                 />
               </div>
               <div style={{ paddingTop: "15px" }}>
@@ -108,6 +110,7 @@ function Footer() {
                   type="email"
                   className="form-control"
                   placeholder="Enter Email address"
+                  required
                 />
               </div>
 

@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../css/BlogCard.css";
-import BlogContent from "./BlogContent";
+import { fetchBlogs } from "../api/BlogsApi";
 function BlogCard() {
+  const [BlogContent, setBlogContent] = useState([]);
+  useEffect(() => {
+    const fetchAPI = async () => {
+      setBlogContent(
+        await fetchBlogs().then((res) => {
+          return res.response.result;
+        })
+      );
+    };
+    fetchAPI();
+  }, [setBlogContent]);
   return (
     <div className="blog-post-list" style={{ color: "black" }}>
       <Row className="g-4">
@@ -19,18 +30,18 @@ function BlogCard() {
               <Card.Img
                 variant="top"
                 className="blog-post-image"
-                src={post.images[0]}
-                alt={post.title}
+                src={post["image_1"]}
+                alt={post["title"]}
               />
               <Card.Body>
                 <Card.Title className="blog-post-title">
-                  {post.title}
+                  {post["title"]}
                 </Card.Title>
                 <Card.Subtitle className="mb-2 text-muted blog-post-meta">
-                  By {post.author} on {post.date}
+                  By {post["author"]} on {post["date"]}
                 </Card.Subtitle>
                 <Card.Text className="blog-post-description">
-                  {post.description}
+                  {post["description"]}
                 </Card.Text>
               </Card.Body>
               <Card.Footer>
@@ -39,7 +50,10 @@ function BlogCard() {
                   className="blog-post-btn"
                   style={{ width: "99%" }}
                 >
-                  <Link to={`/blogs/${post.link}`} className="blog-post-link">
+                  <Link
+                    to={`/blogs/${post["link"]}`}
+                    className="blog-post-link"
+                  >
                     Read More
                   </Link>
                 </Button>

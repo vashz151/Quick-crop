@@ -14,6 +14,7 @@
     "context": "^3.0.4",
     "dom-event-handler": "^1.0.4",
     "dom-manipulator": "^1.0.6",
+    "dompurify": "^3.0.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-chartjs-2": "^5.2.0",
