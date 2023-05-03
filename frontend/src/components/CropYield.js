@@ -4,15 +4,28 @@ import state_arr from "./state.json";
 import crop_arr from "./crop.json";
 import CropYieldResult from "./CropYieldResult";
 import Url from "../api/Url";
+import { BsInfoCircleFill } from "react-icons/bs";
+import InfoModal from "./InfoModal";
 function CropYield() {
   var season = ["Summer", "Kharif", "Autumn", "Rabi", "Winter", "Annual"];
   const [state, setState] = React.useState("Select State");
   const [show, setShow] = React.useState(false);
   const [prediction, setPrediction] = React.useState("");
+  const [tempData, setTempData] = React.useState(null);
+  const [humidData, setHumidData] = React.useState(null);
+  const [rainData, setRainData] = React.useState(null);
+  const [seasonData, setSeasonData] = React.useState(null);
+  const [yearData, setYearData] = React.useState(null);
+  const [showInfo, setShowInfo] = React.useState(false);
   const handleChange = (event) => {
     setState(event.target.value);
   };
-
+  const [info, setInfo] = React.useState({
+    season: false,
+    temperature: false,
+    humidity: false,
+    rainfall: false,
+  });
   const [formdata, setFormdata] = React.useState({
     crop: "",
     area: "",
@@ -49,6 +62,13 @@ function CropYield() {
         document.getElementById("rain").value =
           data.response.result.rainfall + " mm";
         setShow(true);
+        setShowInfo(true);
+        console.log(data.response.result);
+        setTempData(data.response.result.temp_yield);
+        setHumidData(data.response.result.humid_yield);
+        setRainData(data.response.result.rain_yield);
+        setSeasonData(data.response.result.season_yield);
+        setYearData(data.response.result.year_yield);
         setPrediction(data.response.result.prediction);
       });
   };
@@ -56,7 +76,14 @@ function CropYield() {
     event.preventDefault();
     document.getElementById("formdata").reset();
     setState("Select State");
+
     setShow(false);
+  };
+  const handleInfo = (name) => {
+    setInfo({
+      ...info, // copy the existing state
+      [name]: true, // update the property corresponding to the clicked button
+    });
   };
 
   return (
@@ -84,7 +111,7 @@ function CropYield() {
           </div>
           <div className="form-group">
             <label htmlFor="area">
-              <b>Area (in ha)</b>
+              <b>Area (in acre)</b>
             </label>
             <input
               type="number"
@@ -100,6 +127,22 @@ function CropYield() {
           <div className="form-group">
             <label htmlFor="season">
               <b>Crop Season</b>
+              <BsInfoCircleFill
+                style={{ marginLeft: "5px" }}
+                onClick={() => {
+                  handleInfo("season");
+                }}
+              />
+              {showInfo && info["season"] && (
+                <InfoModal
+                  title="Season"
+                  body={seasonData}
+                  info={info}
+                  setInfo={setInfo}
+                  cryield={true}
+                  graph={true}
+                />
+              )}
             </label>
             <select
               id="season"
@@ -154,6 +197,22 @@ function CropYield() {
           <div className="form-group">
             <label htmlFor="temp">
               <b>Temperature (in °C)</b>
+              <BsInfoCircleFill
+                style={{ marginLeft: "5px" }}
+                onClick={() => {
+                  handleInfo("temperature");
+                }}
+              />
+              {showInfo && info["temperature"] && (
+                <InfoModal
+                  title="Temperature"
+                  body={tempData}
+                  info={info}
+                  setInfo={setInfo}
+                  cryield={true}
+                  graph={true}
+                />
+              )}
             </label>
             <input
               className="form-control"
@@ -166,6 +225,22 @@ function CropYield() {
           <div className="form-group">
             <label htmlFor="hum">
               <b>Humidity (in %)</b>
+              <BsInfoCircleFill
+                style={{ marginLeft: "5px" }}
+                onClick={() => {
+                  handleInfo("humidity");
+                }}
+              />
+              {showInfo && info["humidity"] && (
+                <InfoModal
+                  title="Humidity"
+                  body={humidData}
+                  info={info}
+                  setInfo={setInfo}
+                  cryield={true}
+                  graph={true}
+                />
+              )}
             </label>
             <input
               className="form-control"
@@ -178,6 +253,22 @@ function CropYield() {
           <div className="form-group">
             <label htmlFor="rain">
               <b>Rainfall (in mm)</b>
+              <BsInfoCircleFill
+                style={{ marginLeft: "5px" }}
+                onClick={() => {
+                  handleInfo("rainfall");
+                }}
+              />
+              {showInfo && info["rainfall"] && (
+                <InfoModal
+                  title="Rainfall"
+                  body={rainData}
+                  info={info}
+                  setInfo={setInfo}
+                  cryield={true}
+                  graph={true}
+                />
+              )}
             </label>
             <input
               className="form-control"
@@ -206,9 +297,12 @@ function CropYield() {
         </form>
         {show && (
           <CropYieldResult
+            show={show}
+            setShow={setShow}
             prediction={prediction}
             area={formdata.area}
             crop={formdata.crop}
+            yearData={yearData}
           />
         )}
       </div>

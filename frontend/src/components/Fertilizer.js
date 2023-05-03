@@ -301,7 +301,13 @@ function CropRecommend(props) {
               Reset
             </button>
           </div>
-          {show && <FertilizerResult prediction={prediction} />}
+          {show && (
+            <FertilizerResult
+              prediction={prediction}
+              show={show}
+              setShow={setShow}
+            />
+          )}
         </form>
       </div>
     </>

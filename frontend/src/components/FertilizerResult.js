@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function FertilizerResult({ prediction }) {
-  const [show, setShow] = useState(true);
+function FertilizerResult({ prediction, show, setShow }) {
   const handleClose = () => setShow(false);
   return (
     <>
@@ -19,11 +18,8 @@ function FertilizerResult({ prediction }) {
           <p> {prediction.desc3}</p>
           <p>{prediction.desc4}</p>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="d-flex justify-content-center">
           <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
             Understood
           </Button>
         </Modal.Footer>

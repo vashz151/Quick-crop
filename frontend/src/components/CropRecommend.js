@@ -105,6 +105,8 @@ function CropRecommend(props) {
                   body="Nitrogen is an essential macronutrient that is important for plant growth and development. It is needed for the formation of proteins, enzymes, and chlorophyll. Nitrogen is usually applied to the soil as fertilizer in the form of ammonium or nitrate. The recommended application rate for nitrogen can be measured in kilograms per hectare (kg/ha) or parts per million (ppm) of nitrogen in the soil."
                   info={info}
                   setInfo={setInfo}
+                  cryield={false}
+                  graph={false}
                 />
               )}
             </label>
@@ -142,6 +144,8 @@ function CropRecommend(props) {
                   body="Phosphorus is another essential macronutrient that is important for plant growth and development. It is needed for energy transfer, root development, and fruit and seed formation. Phosphorus is usually applied to the soil as fertilizer in the form of phosphate. The recommended application rate for phosphorus can be measured in kilograms per hectare (kg/ha) or parts per million (ppm) of phosphorus in the soil."
                   info={info}
                   setInfo={setInfo}
+                  cryield={false}
+                  graph={false}
                 />
               )}
             </label>
@@ -179,6 +183,8 @@ function CropRecommend(props) {
                   body="Potassium is the third essential macronutrient that is important for plant growth and development. It is needed for enzyme activation, osmoregulation, and stress tolerance. Potassium is usually applied to the soil as fertilizer in the form of potassium chloride or potassium sulfate. The recommended application rate for potassium can be measured in kilograms per hectare (kg/ha) or parts per million (ppm) of potassium in the soil."
                   info={info}
                   setInfo={setInfo}
+                  cryield={false}
+                  graph={false}
                 />
               )}
             </label>
@@ -215,6 +221,8 @@ function CropRecommend(props) {
                   body="pH is a measure of the acidity or alkalinity of the soil. It is an important factor that affects nutrient availability and uptake by plants. The pH scale ranges from 0 to 14, with 7 being neutral. Values below 7 indicate acidity, while values above 7 indicate alkalinity. Most plants prefer a slightly acidic soil with a pH between 6 and 7. The pH of the soil can be measured using a soil test kit or a pH meter."
                   info={info}
                   setInfo={setInfo}
+                  cryield={false}
+                  graph={false}
                 />
               )}
             </label>
@@ -291,6 +299,7 @@ function CropRecommend(props) {
                   }
                   info={info}
                   setInfo={setInfo}
+                  cryield={false}
                   graph={false}
                 />
               )}
@@ -360,6 +369,7 @@ function CropRecommend(props) {
                   body={tempData}
                   info={info}
                   setInfo={setInfo}
+                  cryield={false}
                   graph={true}
                 />
               )}
@@ -387,6 +397,7 @@ function CropRecommend(props) {
                   body={humidData}
                   info={info}
                   setInfo={setInfo}
+                  cryield={false}
                   graph={true}
                 />
               )}
@@ -414,6 +425,7 @@ function CropRecommend(props) {
                   body={rainData}
                   info={info}
                   setInfo={setInfo}
+                  cryield={false}
                   graph={true}
                 />
               )}

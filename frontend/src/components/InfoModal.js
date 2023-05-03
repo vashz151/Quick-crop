@@ -2,8 +2,10 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import InfoGraph from "./InfoGraph";
-function InfoModal({ title, body, info, setInfo, graph }) {
+import LineGraph from "./LineGraph";
+function InfoModal({ title, body, info, setInfo, cryield, graph }) {
   const smallTitle = title.toLowerCase();
+  console.log(body);
   const handleClose = () => setInfo({ [smallTitle]: false });
   return (
     <>
@@ -17,7 +19,13 @@ function InfoModal({ title, body, info, setInfo, graph }) {
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {graph ? (
+          {graph && cryield ? (
+            <LineGraph
+              data={body}
+              title={`${title} - wise - Yield`}
+              xlabel={title}
+            />
+          ) : graph ? (
             <>
               <div>
                 <p>
