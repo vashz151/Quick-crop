@@ -1,7 +1,6 @@
 import React from "react";
 import { BsGithub } from "react-icons/bs";
 import { sendMessage } from "../api/Twillio.js";
-import { subscribe } from "../api/Subscribe.js";
 import OtpModal from "./OtpModal.js";
 function Footer() {
   const [otp, setOtp] = React.useState("");
@@ -9,22 +8,12 @@ function Footer() {
   const [details, setDetails] = React.useState();
   const sendOtp = (e) => {
     e.preventDefault();
-    setDetails(e.target);
-    const data = subscribe(
-      e.target[0].value,
-      e.target[1].value,
-      e.target[2].value
-    );
-    console.log(data);
+    const data = sendMessage(e.target[1].value);
     data.then((res) => {
-      console.log(res);
+      setOtp(res.response.otp);
+      setShow(true);
+      setDetails(e.target);
     });
-    // const data = sendMessage(e.target[1].value);
-    // data.then((res) => {
-    //   setOtp(res.response.otp);
-    //   setShow(true);
-    //   setDetails(e.target);
-    // });
   };
 
   return (
