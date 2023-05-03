@@ -1,24 +1,28 @@
 import { Nav, Navbar, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import logo from "../images/logo.svg";
 import "../css/navbar.css";
 import translate from "../images/translate.gif";
 
 function NavBar() {
-  let duplicate = 0;
+  // eslint-disable-next-line
+  const [duplicate, setDuplicate] = useState(0);
+  const navigatw = useNavigate();
   const googleTranslateElementInit = () => {
-    if (duplicate === 0) {
-      new window.google.translate.TranslateElement(
-        {
-          pageLanguage: "en",
-          autoDisplay: false,
-          includedLanguages: "en,hi,gu,ta,te,ml,kn,pa,or,bn,as,ur,mr",
-        },
-        "google_translate_element"
-      );
-    }
-    duplicate++;
+    setDuplicate((duplicate) => {
+      if (duplicate === 0) {
+        new window.google.translate.TranslateElement(
+          {
+            pageLanguage: "en",
+            autoDisplay: false,
+            includedLanguages: "en,hi,gu,ta,te,ml,kn,pa,or,bn,as,ur,mr",
+          },
+          "google_translate_element"
+        );
+      }
+      return duplicate + 1;
+    });
   };
   React.useEffect(() => {
     var addScript = document.createElement("script");
@@ -89,7 +93,15 @@ function NavBar() {
         ml="auto"
       >
         <Container fluid>
-          <img id="logo" src={logo} alt="logo" />
+          <img
+            id="logo"
+            src={logo}
+            alt="logo"
+            onClick={() => {
+              navigatw("/");
+              setExpanded(false);
+            }}
+          />
           <Navbar.Toggle
             aria-controls="navbarScroll"
             onClick={() => setExpanded(expanded ? false : true)}
@@ -134,10 +146,10 @@ function NavBar() {
                 News
               </Nav.Link>
             </Nav>
-            <div className="flex-container">
+            <div className="flex-container1">
               <div
                 id="google_translate_element"
-                className="flex-items"
+                className="flex-items1"
                 onClick={langaugeselector}
                 onBlur={() => setExpanded(false)}
               ></div>
@@ -145,7 +157,7 @@ function NavBar() {
                 src={translate}
                 alt="translate"
                 id="translate"
-                className="flex-items"
+                className="flex-items1"
               />
             </div>
           </Navbar.Collapse>

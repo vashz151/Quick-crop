@@ -5,7 +5,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Loading from "./Loading";
 import { fetchNews } from "../api/NewsData";
 import { fetchImages } from "../api/Unsplash";
-const News = (props) => {
+const News = () => {
   const [results, setresults] = useState([]);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
@@ -68,12 +68,7 @@ const News = (props) => {
 
   useEffect(() => {
     const updateImages = async () => {
-      let results = await fetchImages(
-        searchPage,
-        pageSize,
-        props.apikey,
-        "Breaking News"
-      );
+      let results = await fetchImages(searchPage, pageSize, "Breaking News");
       setImages(images.concat(results));
     };
     updateImages();

@@ -1,13 +1,12 @@
 import React from "react";
 import "../css/cr.css";
 import state_arr from "./state.json";
-import CropResult from "./CropResult";
 import FertilizerResult from "./FertilizerResult";
+import Url from "../api/Url";
 function CropRecommend(props) {
   var season = ["Summer", "Kharif", "Autumn", "Rabi", "Winter", "Annual"];
   const [state, setState] = React.useState("Select State");
   const [show, setShow] = React.useState(false);
-  const [chartData, setChartData] = React.useState(null);
   const [prediction, setPrediction] = React.useState(null);
   const handleChange = (event) => {
     setState(event.target.value);
@@ -34,7 +33,7 @@ function CropRecommend(props) {
     });
   };
   const handlePredict = (event) => {
-    const baseUrl = "http://127.0.0.1:5000";
+    const baseUrl = Url;
     event.preventDefault();
     const data = formdata;
     fetch(baseUrl + "/fertilizer-predict", {
@@ -53,7 +52,6 @@ function CropRecommend(props) {
           data.response.result.humidity + " %";
         document.getElementById("rain").value =
           data.response.result.rainfall + " mm";
-        setChartData(data.response.result.chart_data);
         setShow(true);
         setPrediction(data.response.result.prediction);
       });

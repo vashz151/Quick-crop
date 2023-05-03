@@ -14,7 +14,6 @@ function BlogPostPage() {
     const fetchAPI = async () => {
       await fetchBlogs().then((res) => {
         setPost(res.response.result.find((posts) => posts["link"] === id));
-        console.log(res.response.result);
         return res.response.result;
       });
     };

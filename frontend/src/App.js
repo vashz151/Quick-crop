@@ -13,13 +13,6 @@ import BlogPostPage from "./components/BlogPostPage";
 import BlogCard from "./components/BlogCard";
 import Fertilizer from "./components/Fertilizer";
 function App() {
-  // const apikey = "";
-  // const apikey = "pub_11366f387421e2f181d6a0b3458d824e857bf"; //mihir's apikey
-  const apikey1 = "noqxKapuU84tzbRRDssdOwR_zzk12HrIaawj1sOAwLo";
-  // const apikey1 = "-se3y0ZFhTHErqgA4LZQ24AyFfJjkCzIuzzF2ifezPM";
-  // const apikey1 = process.env.UNSPLASH_API_KEY;
-  // const apikey=process.env.REACT_APP_NEWS_DATAA;
-
   return (
     <>
       <BrowserRouter>
@@ -31,7 +24,7 @@ function App() {
           <Route
             exact
             path="/crop-recommend"
-            element={<CropRecommend apikey={apikey1} />}
+            element={<CropRecommend />}
           ></Route>
           <Route exact path="/crop-yield" element={<CropYield />}></Route>
           <Route
@@ -41,7 +34,7 @@ function App() {
           ></Route>
           <Route exact path="/blogs" element={<BlogCard />}></Route>
           <Route exact path="/blogs/:id" element={<BlogPostPage />}></Route>
-          <Route exact path="/news" element={<News apikey={apikey1} />}></Route>
+          <Route exact path="/news" element={<News />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>

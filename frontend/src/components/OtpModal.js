@@ -5,8 +5,6 @@ import Modal from "react-bootstrap/Modal";
 import UserAlert from "./UserAlert";
 import emailjs from "@emailjs/browser";
 function OtpModal({ otp, details }) {
-  console.log(otp);
-  console.log(details);
   const [valid, setValid] = useState(false);
   const [show, setShow] = useState(true);
   const [message, setMessage] = useState("");

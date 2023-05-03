@@ -5,7 +5,6 @@ import Modal from "react-bootstrap/Modal";
 function FertilizerResult({ prediction }) {
   const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
-  console.log(prediction);
   return (
     <>
       <Modal show={show} onHide={handleClose} style={{ color: "black" }}>

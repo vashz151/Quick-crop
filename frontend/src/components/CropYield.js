@@ -3,6 +3,7 @@ import "../css/cr.css";
 import state_arr from "./state.json";
 import crop_arr from "./crop.json";
 import CropYieldResult from "./CropYieldResult";
+import Url from "../api/Url";
 function CropYield() {
   var season = ["Summer", "Kharif", "Autumn", "Rabi", "Winter", "Annual"];
   const [state, setState] = React.useState("Select State");
@@ -29,7 +30,7 @@ function CropYield() {
   };
   const handlePredict = (event) => {
     event.preventDefault();
-    const baseUrl = "http://127.0.0.1:5000";
+    const baseUrl = Url;
     const data = formdata;
     fetch(baseUrl + "/crop-yield-predict", {
       headers: {
@@ -83,11 +84,12 @@ function CropYield() {
           </div>
           <div className="form-group">
             <label htmlFor="area">
-              <b>Area (in kg)</b>
+              <b>Area (in ha)</b>
             </label>
             <input
               type="number"
               className="form-control"
+              min="0"
               id="area"
               name="area"
               placeholder="Enter the value"

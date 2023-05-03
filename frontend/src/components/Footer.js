@@ -30,13 +30,29 @@ function Footer() {
                 </a>
               </li>
               <li className="nav-item mb-2">
+                <a href="/about" className="nav-link p-0 text-light">
+                  About
+                </a>
+              </li>
+              <li className="nav-item mb-2">
+                <a href="/news" className="nav-link p-0 text-light">
+                  News
+                </a>
+              </li>
+              <li className="nav-item mb-2">
+                <a href="/blogs" className="nav-link p-0 text-light">
+                  Blogs
+                </a>
+              </li>
+
+              <li className="nav-item mb-2">
                 <a href="/crop-recommend" className="nav-link p-0 text-light">
-                  Crop Recommend
+                  Crop Recommendation
                 </a>
               </li>
               <li className="nav-item mb-2">
                 <a href="/crop-yield" className="nav-link p-0 text-light">
-                  Yield Prediction
+                  Crop Yield Prediction
                 </a>
               </li>
               <li className="nav-item mb-2">
@@ -45,16 +61,6 @@ function Footer() {
                   className="nav-link p-0 text-light"
                 >
                   Fertilizer Recommendation
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="/about" className="nav-link p-0 text-light">
-                  About
-                </a>
-              </li>
-              <li className="nav-item mb-2">
-                <a href="/news" className="nav-link p-0 text-light">
-                  News
                 </a>
               </li>
             </ul>
@@ -71,7 +77,15 @@ function Footer() {
               <BsGithub size={20} style={{ marginLeft: "10px" }} />
             </a>
           </div>
-          <div className="col-md-4 offset-md-3 mb-3 d-flex">
+          <div
+            className="col-md-4 offset-md-3 mb-3 d-flex"
+            style={{
+              backgroundColor: "white",
+              color: "black",
+              borderRadius: "10px",
+              padding: "20px",
+            }}
+          >
             <form onSubmit={sendOtp}>
               <h5>Subscribe to our newsletter</h5>
               <p>Monthly digest of what's new and exciting from us.</p>
@@ -137,7 +151,7 @@ function Footer() {
           }}
         />
         <h6 style={{ textAlign: "center" }}>
-          &copy; 2022 Quick Crop, Inc. <br />
+          &copy; 2023 Quick Crop, Inc. <br />
           All rights reserved.
         </h6>
       </footer>
