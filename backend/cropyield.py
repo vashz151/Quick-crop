@@ -22,7 +22,7 @@ def crop_yield(formdata):
     columns = [index for index in data]
     df = pd.DataFrame(columns=columns)
     df.loc[0] = 0
-    df["Year"] = 2001
+    df["Year"] = 2016
     df[city] = 1
     df[season] = 1
     df[crop] = 1

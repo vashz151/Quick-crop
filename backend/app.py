@@ -13,6 +13,8 @@ from cropyield import crop_yield
 from flask_sqlalchemy import SQLAlchemy
 from mail import send_email
 from reg import obfuscate_email
+from crinfo import temp_list, humid_list, rain_list
+from cyinfo import info_range
 load_dotenv()
 app = Flask(__name__)
 CORS(app)
@@ -73,12 +75,16 @@ def crop_prediction():
     formdata = request.json
     prediction, temperature, humidity, rainfall, chart_data = crop_recommendation(
         formdata)
+    rainfall = round(rainfall, 2)
     pred = {
         "prediction": prediction,
         "temperature": temperature,
         "humidity": humidity,
         "rainfall": rainfall,
         "chart_data": chart_data,
+        "temp_data": temp_list(formdata, list(chart_data.keys())[0], temperature, humidity, rainfall),
+        "humid_data": humid_list(formdata, list(chart_data.keys())[0], temperature, humidity, rainfall),
+        "rain_data": rain_list(formdata, list(chart_data.keys())[0], temperature, humidity, rainfall),
     }
     if pred == 'No crop':
         response = {"status": "error", "result": pred,
@@ -96,11 +102,20 @@ def crop_yield_prediction():
     formdata = request.json
     prediction, temperature, humidity, rainfall = crop_yield(
         formdata)
+    rainfall = round(rainfall, 2)
+    (year_yield, season_yield, temp_yield, rain_yield, humid_yield
+     ) = info_range(formdata, temperature, humidity, rainfall)
+    year_yield[2022] = round(prediction/int(formdata['area']), 2)
     pred = {
         "prediction": prediction,
         "temperature": temperature,
         "humidity": humidity,
-        "rainfall": rainfall
+        "rainfall": rainfall,
+        "year_yield": year_yield,
+        "season_yield": season_yield,
+        "temp_yield": temp_yield,
+        "rain_yield": rain_yield,
+        "humid_yield": humid_yield,
     }
     if pred == '':
         response = {"status": "error", "result": pred,
