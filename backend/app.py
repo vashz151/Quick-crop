@@ -1,4 +1,5 @@
 # Importing essential libraries and modules
+import json
 import blogs
 from flask import Flask, request, jsonify
 import os
@@ -15,6 +16,7 @@ from mail import send_email
 from reg import obfuscate_email
 from crinfo import temp_list, humid_list, rain_list
 from cyinfo import info_range
+from resultmail import send_result
 load_dotenv()
 app = Flask(__name__)
 CORS(app)
@@ -29,6 +31,11 @@ class User(db.Model):
     email = db.Column(db.String(120), primary_key=True,
                       unique=True, nullable=False)
     mobile = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __init__(self, name, email, mobile):
+        self.name = name
+        self.email = email
+        self.mobile = mobile
 
     def __repr__(self):
         return '<Email %r>' % self.email
@@ -47,6 +54,17 @@ class Blogs(db.Model):
     date = db.Column(db.String(20), nullable=False)
     content = db.Column(db.Text, nullable=False)
     link = db.Column(db.String(50), unique=True, nullable=False)
+
+    def __init__(self, title, description, image_1, image_2, author, read_time, date, content, link):
+        self.title = title
+        self.description = description
+        self.image_1 = image_1
+        self.image_2 = image_2
+        self.author = author
+        self.read_time = read_time
+        self.date = date
+        self.content = content
+        self.link = link
 
     def __repr__(self):
         return f"Article('{self.title}', '{self.author}', '{self.date}')"
@@ -72,7 +90,8 @@ def send_otp():
 
 @ app.route('/crop-predict', methods=['POST'])
 def crop_prediction():
-    formdata = request.json
+    data = request.json
+    formdata = data['formdata']
     prediction, temperature, humidity, rainfall, chart_data = crop_recommendation(
         formdata)
     rainfall = round(rainfall, 2)
@@ -82,9 +101,6 @@ def crop_prediction():
         "humidity": humidity,
         "rainfall": rainfall,
         "chart_data": chart_data,
-        "temp_data": temp_list(formdata, list(chart_data.keys())[0], temperature, humidity, rainfall),
-        "humid_data": humid_list(formdata, list(chart_data.keys())[0], temperature, humidity, rainfall),
-        "rain_data": rain_list(formdata, list(chart_data.keys())[0], temperature, humidity, rainfall),
     }
     if pred == 'No crop':
         response = {"status": "error", "result": pred,
@@ -97,9 +113,67 @@ def crop_prediction():
     }
 
 
+@app.route('/crop-predict-temp', methods=['POST'])
+def crop_prediction_temp():
+    data = request.json
+    formdata = data['formdata']
+    chart_data = data['chart_data']
+    temperature = data['temperature']
+    humidity = data['humidity']
+    rainfall = data['rainfall']
+    pred = {
+        "temp_data": temp_list(formdata, list(chart_data.keys())[0], temperature, humidity, rainfall),
+        "prediction": list(chart_data.keys())[0],
+    }
+    response = {"status": "success", "result": pred,
+                "message": "Crop recommendation fetched successfully"}
+    return {
+        "response": response
+    }
+
+
+@app.route('/crop-predict-humid', methods=['POST'])
+def crop_prediction_humid():
+    data = request.json
+    formdata = data['formdata']
+    chart_data = data['chart_data']
+    temperature = data['temperature']
+    humidity = data['humidity']
+    rainfall = data['rainfall']
+    pred = {
+        "humid_data": humid_list(formdata, list(chart_data.keys())[0], temperature, humidity, rainfall),
+        "prediction": list(chart_data.keys())[0],
+    }
+    response = {"status": "success", "result": pred,
+                "message": "Crop recommendation fetched successfully"}
+    return {
+        "response": response
+    }
+
+
+@app.route('/crop-predict-rain', methods=['POST'])
+def crop_prediction_rain():
+    data = request.json
+    formdata = data['formdata']
+    chart_data = data['chart_data']
+    temperature = data['temperature']
+    humidity = data['humidity']
+    rainfall = data['rainfall']
+    pred = {
+        "rain_data": rain_list(formdata, list(chart_data.keys())[0], temperature, humidity, rainfall),
+        "prediction": list(chart_data.keys())[0],
+    }
+    response = {"status": "success", "result": pred,
+                "message": "Crop recommendation fetched successfully"}
+    return {
+        "response": response
+    }
+
+
 @ app.route('/crop-yield-predict', methods=['POST'])
 def crop_yield_prediction():
-    formdata = request.json
+    data = request.json
+    formdata = data['formdata']
     prediction, temperature, humidity, rainfall = crop_yield(
         formdata)
     rainfall = round(rainfall, 2)
@@ -130,9 +204,11 @@ def crop_yield_prediction():
 
 @ app.route('/fertilizer-predict', methods=['POST'])
 def fert_prediction():
-    formdata = request.json
+    data = request.json
+    formdata = data['formdata']
     my_prediction, temperature, humidity, rainfall = fertilizer_prediction(
         formdata)
+    rainfall = round(rainfall, 2)
     pred = {
         "prediction": my_prediction,
         "temperature": temperature,
@@ -146,13 +222,40 @@ def fert_prediction():
     }
 
 
-@app.route('/send-newsletter', methods=['GET'])
+@ app.route('/send-newsletter', methods=['GET'])
 def send_newsletter():
     subject = 'Newsletter'
     with open('templates/newsletter.html', 'r') as f:
         template = f.read()
     subscribers = db.session.query(User).all()
     return send_email(subject, template, subscribers)
+
+
+@ app.route('/check-subscription', methods=['POST'])
+def check_subscription():
+    formdata = request.json
+    name = formdata['name']
+    email = formdata['email']
+    mobile = formdata['mobile']
+    user = User(name, email, mobile)
+    if db.session.query(User).filter(User.email == email).count() == 1:
+        response = {
+            'status': '201',
+            "message": 'This email is already subscribed to our mailing list!'
+        }
+    elif db.session.query(User).filter(User.mobile == mobile).count() == 1:
+        user = db.session.query(User).filter(User.mobile == mobile).first()
+        email = user.email
+        response = {
+            'status': '202',
+            "message": 'This mobile number is already subscribed to our mailing list with email: ' + obfuscate_email(email) + '!'
+        }
+    else:
+        response = {
+            'status': '200',
+            'message': 'You are not subscribed to our mailing list!'
+        }
+    return {"response": response}
 
 
 @ app.route('/subscribe', methods=['POST'])
@@ -162,29 +265,55 @@ def subscribe():
     email = formdata['email']
     mobile = formdata['mobile']
     user = User(name, email, mobile)
-    if db.session.query(User).filter(User.email == email).count() == 1:
-        return 'You are already subscribed to our mailing list!'
-    elif db.session.query(User).filter(User.mobile == mobile).count() == 1:
-        user = db.session.query(User).filter(User.mobile == mobile).first()
-        email = user.email
-        return 'This mobile number is already subscribed to our mailing list with email: ' + obfuscate_email(email) + '!'
+    db.session.add(user)
+    db.session.commit()
+    subject = 'Thanks for subscribing {{{name}}}'
+    with open('templates/subscribe.html', 'r') as f:
+        template = f.read()
+    subscribers = db.session.query(User).filter(User.email == email)
+    template = template.replace('{{{name}}}', name)
+    template = template.replace('{{{email}}}', email)
+    message = send_email(subject, template, subscribers)
+    if message[1] == 200:
+        response = {
+            'status': '200',
+            'message': 'You have been successfully subscribed to our mailing list!'
+        }
     else:
-        db.session.add(user)
+        db.session.delete(user)
         db.session.commit()
-        subject = 'Thanks for subscribing {{{name}}}'
-        with open('templates/subscribe.html', 'r') as f:
-            template = f.read()
-        subscribers = db.session.query(User).filter(User.email == email)
-        message = send_email(subject, template, subscribers)
-        if message[1] == 200:
-            return 'You have been successfully subscribed to our mailing list!'
-        else:
-            db.session.delete(user)
-            db.session.commit()
-            return 'Something went wrong! Please try again later.'
+        response = {
+            'status': '500',
+            'message': 'Something went wrong! Please try again later.'
+        }
+    return {"response": response}
 
 
-@app.route('/unsubscribe', methods=['GET'])
+@ app.route('/send-result', methods=['POST'])
+def sendResult():
+    formdata = request.json
+    name = formdata['name']
+    email = formdata['email']
+    body = formdata['body']
+    subject = 'Thank you {{{name}}} for using QuickCrop'
+    with open('templates/Result.html', 'r') as f:
+        template = f.read()
+    template = template.replace('{{{body}}}', body)
+    message = send_result(subject, template, name, email)
+    if message[1] == 200:
+        response = {
+            'status': '200',
+            'message': 'You have been successfully subscribed to our mailing list!'
+        }
+    else:
+        response = {
+            'status': '500',
+            'message': 'Something went wrong! Please try again later.'
+        }
+    return {"response": response}
+
+
+@ app.route('/unsubscribe', methods=['GET'])
 def unsubscribe():
     email = request.args.get("email")
     user = db.session.query(User).filter(User.email == email).first()
@@ -193,7 +322,7 @@ def unsubscribe():
     return 'You have been successfully unsubscribed from our mailing list. Thank you!'
 
 
-@app.route('/add-blog', methods=['POST'])
+@ app.route('/add-blog', methods=['POST'])
 def addBlog():
     formdata = request.json
     title = formdata['title']
@@ -218,7 +347,7 @@ def addBlog():
     }
 
 
-@app.route('/blogs', methods=['GET'])
+@ app.route('/blogs', methods=['GET'])
 def getBlogs():
     blogs = db.session.query(Blogs).all()
     blogs = [blog.__dict__ for blog in blogs]

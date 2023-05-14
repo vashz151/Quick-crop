@@ -3,9 +3,8 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import InfoGraph from "./InfoGraph";
 import LineGraph from "./LineGraph";
-function InfoModal({ title, body, info, setInfo, cryield, graph }) {
+function InfoModal({ title, body, info, setInfo, cryield, graph, prediction }) {
   const smallTitle = title.toLowerCase();
-  console.log(body);
   const handleClose = () => setInfo({ [smallTitle]: false });
   return (
     <>
@@ -47,7 +46,7 @@ function InfoModal({ title, body, info, setInfo, cryield, graph }) {
                 infoData={body}
                 xlabel={title}
                 title={`Crop Probability vs ${title}`}
-                prediction="rice"
+                prediction={`${prediction}`}
               />
             </>
           ) : (

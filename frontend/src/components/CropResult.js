@@ -14,7 +14,7 @@ function CropResult(props) {
       /(^\w|\s\w)(\S*)/g,
       (_, m1, m2) => m1.toUpperCase() + m2.toLowerCase()
     );
-  const prediction = toTitleCase(props.prediction[0]);
+  const prediction = toTitleCase(props.prediction);
 
   return (
     <div className="crdiv">
@@ -25,14 +25,14 @@ function CropResult(props) {
         <div className="flex-items">
           <img
             className="img"
-            src={require(`../images/crops/${props.prediction[0]}.png`)}
+            src={require(`../images/crops/${props.prediction}.png`)}
             alt={`${prediction}`}
           />
         </div>
       </div>
 
       <h1 className="text-center" style={{ color: "white" }}>
-        {prediction === "No crop" ? (
+        {prediction === "No Crop" ? (
           <div className="para">
             <b>
               <i style={{ color: "red" }}>{prediction} </i>can be grown in your
@@ -56,9 +56,6 @@ function CropResult(props) {
             <i>
               Your farm has potential to grow{" "}
               <i style={{ color: "orange" }}>{prediction} </i>in your farm!
-              <br />
-              Other option is{" "}
-              <i style={{ color: "orange" }}>{props.prediction[1]} </i>
             </i>
             <br />
             Want to know about the yield of the crop?

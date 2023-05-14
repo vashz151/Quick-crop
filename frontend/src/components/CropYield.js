@@ -3,8 +3,8 @@ import "../css/cr.css";
 import state_arr from "./state.json";
 import crop_arr from "./crop.json";
 import CropYieldResult from "./CropYieldResult";
-import Url from "../api/Url";
 import { BsInfoCircleFill } from "react-icons/bs";
+import { CropYieldPredict } from "../api/CropYieldPredict";
 import InfoModal from "./InfoModal";
 function CropYield() {
   var season = ["Summer", "Kharif", "Autumn", "Rabi", "Winter", "Annual"];
@@ -17,6 +17,9 @@ function CropYield() {
   const [seasonData, setSeasonData] = React.useState(null);
   const [yearData, setYearData] = React.useState(null);
   const [showInfo, setShowInfo] = React.useState(false);
+  const [temperature, setTemperature] = React.useState("");
+  const [humidity, setHumidity] = React.useState("");
+  const [rainfall, setRainfall] = React.useState("");
   const handleChange = (event) => {
     setState(event.target.value);
   };
@@ -43,34 +46,20 @@ function CropYield() {
   };
   const handlePredict = (event) => {
     event.preventDefault();
-    const baseUrl = Url;
-    const data = formdata;
-    fetch(baseUrl + "/crop-yield-predict", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        document.getElementById("temp").value =
-          data.response.result.temperature + " °C";
-        document.getElementById("hum").value =
-          data.response.result.humidity + " %";
-        document.getElementById("rain").value =
-          data.response.result.rainfall + " mm";
-        setShow(true);
-        setShowInfo(true);
-        console.log(data.response.result);
-        setTempData(data.response.result.temp_yield);
-        setHumidData(data.response.result.humid_yield);
-        setRainData(data.response.result.rain_yield);
-        setSeasonData(data.response.result.season_yield);
-        setYearData(data.response.result.year_yield);
-        setPrediction(data.response.result.prediction);
-      });
+    const res = CropYieldPredict(formdata);
+    res.then((data) => {
+      setTemperature(data.response.result.temperature + " °C");
+      setHumidity(data.response.result.humidity + " %");
+      setRainfall(data.response.result.rainfall + " mm");
+      setShow(true);
+      setShowInfo(true);
+      setTempData(data.response.result.temp_yield);
+      setHumidData(data.response.result.humid_yield);
+      setRainData(data.response.result.rain_yield);
+      setSeasonData(data.response.result.season_yield);
+      setYearData(data.response.result.year_yield);
+      setPrediction(data.response.result.prediction);
+    });
   };
   const handleReset = (event) => {
     event.preventDefault();
@@ -220,6 +209,7 @@ function CropYield() {
               name="temp"
               placeholder="Temperature"
               disabled
+              value={temperature}
             />
           </div>
           <div className="form-group">
@@ -248,6 +238,7 @@ function CropYield() {
               name="hum"
               placeholder="Humidity"
               disabled
+              value={humidity}
             />
           </div>
           <div className="form-group">
@@ -276,6 +267,7 @@ function CropYield() {
               name="rain"
               placeholder="Rainfall"
               disabled
+              value={rainfall}
             />
           </div>
           <div className="d-flex justify-content-center">
@@ -303,6 +295,21 @@ function CropYield() {
             area={formdata.area}
             crop={formdata.crop}
             yearData={yearData}
+            body={` <p>The details of the crop yield prediction are as follows:</p><ul><li>Crop Name: ${
+              formdata.crop
+            }</li><li>Area: ${formdata.area}</li><li>Season: ${
+              formdata.season
+            }</li><li>City: ${
+              formdata.city
+            }</li><li>Temperature: ${temperature}</li><li>Humidity: ${humidity}</li><li>Rainfall: ${rainfall}</li></ul>    <p>
+      Recommended Fertilize: ${prediction.data}
+    </p>
+<p>Our analysis indicates that the expected yield for your crop in the given conditions is ${(
+              prediction / formdata.area
+            ).toFixed(2)} kg per acre.</p>
+   <p>Please note that this is an estimate based on the information you provided. Actual yield may vary depending on several factors such as weather, pests and diseases, soil fertility, and crop management practices.</p>
+   <p>Thank you for choosing QuickCrop for your crop yield estimation needs.</p>
+`}
           />
         )}
       </div>

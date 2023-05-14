@@ -13,10 +13,10 @@ crop_yield_model = pickle.load(open(crop_yield_model_path, "rb"))
 
 
 def crop_yield(formdata):
-    crop = formdata['crop']
-    area = formdata['area']
-    season = formdata['season']
-    city = formdata['city']
+    crop = formdata["crop"]
+    area = int(formdata["area"])
+    season = formdata["season"]
+    city = formdata["city"]
     temperature, humidity = weather_fetch(city)
     rainfall = rainfall_data[rainfall_data["DIST"] == city][season].values[0]
     columns = [index for index in data]

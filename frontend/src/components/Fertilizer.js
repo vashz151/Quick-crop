@@ -2,12 +2,15 @@ import React from "react";
 import "../css/cr.css";
 import state_arr from "./state.json";
 import FertilizerResult from "./FertilizerResult";
-import Url from "../api/Url";
-function CropRecommend(props) {
+import { FertilizerPredict } from "../api/FertilizerPredict";
+function CropRecommend() {
   var season = ["Summer", "Kharif", "Autumn", "Rabi", "Winter", "Annual"];
   const [state, setState] = React.useState("Select State");
   const [show, setShow] = React.useState(false);
-  const [prediction, setPrediction] = React.useState(null);
+  const [prediction, setPrediction] = React.useState("");
+  const [temperature, setTemperature] = React.useState("");
+  const [humidity, setHumidity] = React.useState("");
+  const [rainfall, setRainfall] = React.useState("");
   const handleChange = (event) => {
     setState(event.target.value);
   };
@@ -33,28 +36,15 @@ function CropRecommend(props) {
     });
   };
   const handlePredict = (event) => {
-    const baseUrl = Url;
     event.preventDefault();
-    const data = formdata;
-    fetch(baseUrl + "/fertilizer-predict", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        document.getElementById("temp").value =
-          data.response.result.temperature + " °C";
-        document.getElementById("hum").value =
-          data.response.result.humidity + " %";
-        document.getElementById("rain").value =
-          data.response.result.rainfall + " mm";
-        setShow(true);
-        setPrediction(data.response.result.prediction);
-      });
+    const res = FertilizerPredict(formdata);
+    res.then((data) => {
+      setTemperature(data.response.result.temperature + " °C");
+      setHumidity(data.response.result.humidity + " %");
+      setRainfall(data.response.result.rainfall + " mm");
+      setShow(true);
+      setPrediction(data.response.result.prediction);
+    });
   };
   const handleReset = (event) => {
     event.preventDefault();
@@ -259,6 +249,7 @@ function CropRecommend(props) {
               name="temp"
               placeholder="Temperature"
               disabled
+              value={temperature}
             />
           </div>
           <div className="form-group">
@@ -271,6 +262,7 @@ function CropRecommend(props) {
               name="hum"
               placeholder="Humidity"
               disabled
+              value={humidity}
             />
           </div>
           <div className="form-group">
@@ -283,6 +275,7 @@ function CropRecommend(props) {
               name="rain"
               placeholder="Rainfall"
               disabled
+              value={rainfall}
             />
           </div>
           <div className="d-flex justify-content-center">
@@ -302,11 +295,23 @@ function CropRecommend(props) {
             </button>
           </div>
           {show && (
-            <FertilizerResult
-              prediction={prediction}
-              show={show}
-              setShow={setShow}
-            />
+            <>
+              <FertilizerResult
+                prediction={prediction}
+                show={show}
+                setShow={setShow}
+                body={` <p>The details of the fertilizer recommendation are as follows:</p><ul><li>Nitrogen level: ${formdata.nitrogen} %</li><li>Phosphorus level: ${formdata.phosphorous} %</li><li>Potassium level: ${formdata.pottasium} %</li><li>pH level: ${formdata.ph}</li><li>Season: ${formdata.season}</li><li>Soil type: ${formdata.soil}</li><li>Moisture content: ${formdata.moisture} %</li><li>Crop type: ${formdata.crop}</li><li>City: ${formdata.city}</li><li>Temperature: ${temperature}</li><li>Humidity: ${humidity}</li><li>Rainfall: ${rainfall}</li></ul>    <p>
+      Recommended Fertilizer: ${prediction.data}
+    </p>
+    <p>
+      We believe that this fertilizer will help you achieve the best possible results for your crops. 
+    </p>
+    <p>
+      Thank you for using our fertilizer recommendation service on QuickCrop. We are committed to helping you grow healthy and sustainable crops, and we hope that this recommendation will be beneficial to you.
+    </p>
+`}
+              />
+            </>
           )}
         </form>
       </div>

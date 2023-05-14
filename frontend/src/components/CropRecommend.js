@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../css/cr.css";
 import state_arr from "./state.json";
 import CropResult from "./CropResult";
 import { BsInfoCircleFill } from "react-icons/bs";
 import InfoModal from "./InfoModal";
-import Url from "../api/Url";
-
-function CropRecommend(props) {
+import { CRTemp, CRHumid, CRRain } from "../api/CRGraph";
+import { CropPredict } from "../api/CropPredict";
+import ResultModal from "./ResultModal";
+function CropRecommend() {
   var season = ["Summer", "Kharif", "Autumn", "Rabi", "Winter", "Annual"];
   const [state, setState] = React.useState("Select State");
   const [show, setShow] = React.useState(false);
+  const [showModal, setShowModal] = React.useState(false);
   const [info, setInfo] = React.useState({
     nitrogen: false,
     phosphorous: false,
@@ -25,9 +27,49 @@ function CropRecommend(props) {
   const [humidData, setHumidData] = React.useState(null);
   const [rainData, setRainData] = React.useState(null);
   const [prediction, setPrediction] = React.useState("");
+  const [prediction1, setPrediction1] = React.useState("");
+  const [temperature, setTemperature] = React.useState("");
+  const [humidity, setHumidity] = React.useState("");
+  const [rainfall, setRainfall] = React.useState("");
   const handleChange = (event) => {
     setState(event.target.value);
   };
+  useEffect(() => {
+    if (temperature !== "") {
+      const data = CRTemp(formdata, chartData, temperature, humidity, rainfall);
+      data.then((res) => {
+        setTempData(res.response.result.temp_data);
+        setPrediction1(res.response.result.prediction);
+      });
+    }
+    //eslint-disable-next-line
+  }, [temperature]);
+  useEffect(() => {
+    if (humidity !== "") {
+      const data = CRHumid(
+        formdata,
+        chartData,
+        temperature,
+        humidity,
+        rainfall
+      );
+      data.then((res) => {
+        setHumidData(res.response.result.humid_data);
+        setPrediction1(res.response.result.prediction);
+      });
+    }
+    //eslint-disable-next-line
+  }, [humidity]);
+  useEffect(() => {
+    if (rainfall !== "") {
+      const data = CRRain(formdata, chartData, temperature, humidity, rainfall);
+      data.then((res) => {
+        setRainData(res.response.result.rain_data);
+        setPrediction1(res.response.result.prediction);
+      });
+    }
+    //eslint-disable-next-line
+  }, [rainfall]);
 
   const [formdata, setFormdata] = React.useState({
     nitrogen: "",
@@ -54,30 +96,22 @@ function CropRecommend(props) {
   };
 
   const handlePredict = (event) => {
-    const baseUrl = Url;
     event.preventDefault();
-    const data = formdata;
-    fetch(baseUrl + "/crop-predict", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        document.getElementById("temp").value =
-          data.response.result.temperature;
-        document.getElementById("hum").value = data.response.result.humidity;
-        document.getElementById("rain").value = data.response.result.rainfall;
-        setChartData(data.response.result.chart_data);
-        setShow(true);
-        setTempData(data.response.result.temp_data);
-        setHumidData(data.response.result.humid_data);
-        setRainData(data.response.result.rain_data);
-        setPrediction(data.response.result.prediction);
-      });
+    const res = CropPredict(formdata);
+    res.then((data) => {
+      document.getElementById("temp").value = data.response.result.temperature;
+      document.getElementById("hum").value = data.response.result.humidity;
+      document.getElementById("rain").value = data.response.result.rainfall;
+      setPrediction(data.response.result.prediction[0]);
+      setChartData(data.response.result.chart_data);
+      setTemperature(data.response.result.temperature);
+      setHumidity(data.response.result.humidity);
+      setRainfall(data.response.result.rainfall);
+      setShow(true);
+      setTimeout(() => {
+        setShowModal(true);
+      }, 5000);
+    });
   };
   const handleReset = (event) => {
     event.preventDefault();
@@ -371,6 +405,7 @@ function CropRecommend(props) {
                   setInfo={setInfo}
                   cryield={false}
                   graph={true}
+                  prediction={prediction1}
                 />
               )}
             </label>
@@ -380,6 +415,7 @@ function CropRecommend(props) {
               name="temp"
               placeholder="Temperature"
               disabled
+              value={temperature}
             />
           </div>
           <div className="form-group">
@@ -399,6 +435,7 @@ function CropRecommend(props) {
                   setInfo={setInfo}
                   cryield={false}
                   graph={true}
+                  prediction={prediction1}
                 />
               )}
             </label>
@@ -408,6 +445,7 @@ function CropRecommend(props) {
               name="hum"
               placeholder="Humidity"
               disabled
+              value={humidity}
             />
           </div>
           <div className="form-group">
@@ -427,6 +465,7 @@ function CropRecommend(props) {
                   setInfo={setInfo}
                   cryield={false}
                   graph={true}
+                  prediction={prediction1}
                 />
               )}
             </label>
@@ -436,6 +475,7 @@ function CropRecommend(props) {
               name="rain"
               placeholder="Rainfall"
               disabled
+              value={rainfall}
             />
           </div>
           <div className="d-flex justify-content-center">
@@ -456,7 +496,23 @@ function CropRecommend(props) {
           </div>
         </form>
       </div>
-      {show && <CropResult chartData={chartData} prediction={prediction} />}
+      {show && (
+        <>
+          <CropResult chartData={chartData} prediction={prediction} />
+          <ResultModal
+            show={showModal}
+            setShow={setShowModal}
+            body={` <p>The details of the crop recommendation are as follows:</p><ul><li>Nitrogen level: ${formdata.nitrogen} kg/ha</li><li>Phosphorus level: ${formdata.phosphorous} kg/ha</li><li>Potassium level: ${formdata.pottasium} kg/ha</li><li>pH level: ${formdata.ph}</li><li>Season: ${formdata.season}</li><li>Soil type: ${formdata.soil}</li><li>City: ${formdata.city}</li><li>Temperature: ${temperature}</li><li>Humidity: ${humidity}</li><li>Rainfall: ${rainfall}</li></ul>    <p>
+      Recommended Crop: ${prediction}
+    </p>
+    <p>Please note that this is an estimate based on the information you provided. Actual result may vary depending on several factors such as pests, diseases and crop management practices.</p>
+    <p>
+      Thank you for using our crop recommendation service on QuickCrop. We are committed to helping you grow healthy and sustainable crops, and we hope that this recommendation will be beneficial to you.
+    </p>
+`}
+          />
+        </>
+      )}
     </>
   );
 }

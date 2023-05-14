@@ -3,10 +3,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import UserAlert from "./UserAlert";
-import emailjs from "@emailjs/browser";
-function OtpModal({ otp, details }) {
+import { subscribe } from "../api/Subscribe.js";
+function OtpModal({ otp, details, show, setShow }) {
   const [valid, setValid] = useState(false);
-  const [show, setShow] = useState(true);
   const [message, setMessage] = useState("");
   const [variant, setVariant] = useState("");
   const handleShow = () => setShow(!show);
@@ -16,16 +15,22 @@ function OtpModal({ otp, details }) {
       setValid(true);
       setMessage("OTP verified successfully");
       setVariant("success");
-      emailjs
-        .sendForm("quickcrop", "quickcrop_temp", details, "kgWSv7mKn7T812rbf")
-        .then(
-          (result) => {
-            alert("Thank you for subscribing!");
-          },
-          (error) => {
-            alert("Something went wrong! Please try again later");
-          }
-        );
+      const data = subscribe(
+        details[0].value,
+        details[1].value,
+        details[2].value
+      );
+      data.then((res) => {
+        if (res.response.status === "200") {
+          setValid(true);
+          setMessage(res.response.message);
+          setVariant("success");
+        } else {
+          setValid(true);
+          setMessage(res.response.message);
+          setVariant("danger");
+        }
+      });
       setTimeout(() => {
         setShow(false);
       }, 1000);

@@ -1,6 +1,7 @@
 import React from "react";
 import { BsGithub } from "react-icons/bs";
 import { sendMessage } from "../api/Twillio.js";
+import { check_subscribe } from "../api/CheckSubscribe.js";
 import OtpModal from "./OtpModal.js";
 function Footer() {
   const [otp, setOtp] = React.useState("");
@@ -8,17 +9,31 @@ function Footer() {
   const [details, setDetails] = React.useState();
   const sendOtp = (e) => {
     e.preventDefault();
-    const data = sendMessage(e.target[1].value);
+    const data = check_subscribe(
+      e.target[0].value,
+      e.target[1].value,
+      e.target[2].value
+    );
     data.then((res) => {
-      setOtp(res.response.otp);
-      setShow(true);
-      setDetails(e.target);
+      if (res.response.status === "200") {
+        const data = sendMessage(e.target[1].value);
+        data.then((res) => {
+          setOtp(res.response.otp);
+          setShow(true);
+          setDetails(e.target);
+        });
+      } else {
+        alert(res.response.message);
+        setShow(false);
+      }
     });
   };
 
   return (
     <div className="container" style={{ width: "80%", position: "relative" }}>
-      {show && <OtpModal otp={otp} details={details} />}
+      {show && (
+        <OtpModal otp={otp} details={details} show={show} setShow={setShow} />
+      )}
       <footer className="py-5">
         <div className="row-md-4 mb-3 d-flex flex-column flex-sm-row justify-content-start">
           <div className="col-md-2 mb-3 flex-column flex-sm-row">
@@ -77,19 +92,17 @@ function Footer() {
               <BsGithub size={20} style={{ marginLeft: "10px" }} />
             </a>
           </div>
+
           <div
             className="col-md-4 offset-md-3 mb-3 d-flex"
             style={{
-              backgroundColor: "white",
-              color: "black",
               borderRadius: "10px",
               padding: "20px",
             }}
           >
             <form onSubmit={sendOtp}>
-              <h5>Subscribe to our newsletter</h5>
+              <h5>Subscribe to our Newsletter</h5>
               <p>Monthly digest of what's new and exciting from us.</p>
-
               <div className="d-flex flex-column flex-sm-row w-100 gap-2  ">
                 <label htmlFor="name" className="visually-hidden">
                   Name
@@ -129,7 +142,6 @@ function Footer() {
               </div>
 
               <button
-                disabled
                 className="btn btn-secondary btn-lg btn-block"
                 type="submit"
                 style={{
