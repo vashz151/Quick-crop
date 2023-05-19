@@ -1,7 +1,7 @@
 # Importing essential libraries and modules
 import json
 import blogs
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 import os
 from dotenv import load_dotenv
 import numpy as np
@@ -72,8 +72,7 @@ class Blogs(db.Model):
 
 @app.route('/')
 def home():
-
-    return 'Hello World!'
+    return render_template('index.html')
 
 
 @ app.route('/news', methods=['GET'])
@@ -95,6 +94,7 @@ def crop_prediction():
     prediction, temperature, humidity, rainfall, chart_data = crop_recommendation(
         formdata)
     rainfall = round(rainfall, 2)
+    prediction[0] = list(chart_data.keys())[0]
     pred = {
         "prediction": prediction,
         "temperature": temperature,
@@ -102,7 +102,8 @@ def crop_prediction():
         "rainfall": rainfall,
         "chart_data": chart_data,
     }
-    if pred == 'No crop':
+    print(pred)
+    if pred == 'No Crop':
         response = {"status": "error", "result": pred,
                     "message": "No crop can be grown in this region"}
     else:
