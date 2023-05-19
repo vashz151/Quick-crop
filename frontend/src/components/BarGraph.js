@@ -31,8 +31,11 @@ const BarGraph = (props) => {
           responsive: true,
           scales: {
             y: {
+              beginAtZero: true,
+              min: 0,
+              max: 1,
               ticks: {
-                beginAtZero: true,
+                stepSize: 0.1,
                 color: "black",
                 font: {
                   size: 16,

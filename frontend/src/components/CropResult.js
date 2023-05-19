@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/cr.css";
 import CropMoreInfo from "./CropMoreInfo";
 import BarGraph from "./BarGraph";
+import ResultModal from "./ResultModal";
 function CropResult(props) {
   const navigate = useNavigate();
   const [moreInfo, setMoreInfo] = React.useState(false);
@@ -58,10 +59,17 @@ function CropResult(props) {
               <i style={{ color: "orange" }}>{prediction} </i>in your farm!
             </i>
             <br />
-            Want to know about the yield of the crop?
+            Want to send output to your mail?
             <br />
-            <button className="crbtn" onClick={() => navigate("/crop-yield")}>
-              Crop Yield
+            <button className="crbtn" onClick={() => props.setShow(true)}>
+              {props.show ? (
+                <ResultModal
+                  setShow={props.setShow}
+                  show={props.show}
+                  body={props.body}
+                />
+              ) : null}
+              Email Me
             </button>
             <button className="crbtn" onClick={handleMoreInfo}>
               More Info

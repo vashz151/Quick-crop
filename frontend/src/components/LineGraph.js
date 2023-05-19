@@ -43,8 +43,10 @@ function LineGraph({ data, title, xlabel }) {
           },
           scales: {
             y: {
+              beginAtZero: true,
+              min: 0,
               ticks: {
-                beginAtZero: true,
+                stepSize: 0.1,
                 color: "black",
                 font: {
                   size: 16,

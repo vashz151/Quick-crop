@@ -6,7 +6,6 @@ import { BsInfoCircleFill } from "react-icons/bs";
 import InfoModal from "./InfoModal";
 import { CRTemp, CRHumid, CRRain } from "../api/CRGraph";
 import { CropPredict } from "../api/CropPredict";
-import ResultModal from "./ResultModal";
 function CropRecommend() {
   var season = ["Summer", "Kharif", "Autumn", "Rabi", "Winter", "Annual"];
   const [state, setState] = React.useState("Select State");
@@ -31,6 +30,12 @@ function CropRecommend() {
   const [temperature, setTemperature] = React.useState("");
   const [humidity, setHumidity] = React.useState("");
   const [rainfall, setRainfall] = React.useState("");
+  const [unit, setUnit] = React.useState({
+    nitrogenUnit: "kg/ha",
+    phosphorousUnit: "kg/ha",
+    pottasiumUnit: "kg/ha",
+  });
+
   const handleChange = (event) => {
     setState(event.target.value);
   };
@@ -79,6 +84,16 @@ function CropRecommend() {
     season: "",
     city: "",
   });
+  const handleUnitChange = (event) => {
+    const { name, value } = event.target;
+    setUnit((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  };
+
   const handleFormChange = (event) => {
     const { name, value } = event.target;
     setFormdata((prevValue) => {
@@ -97,6 +112,24 @@ function CropRecommend() {
 
   const handlePredict = (event) => {
     event.preventDefault();
+    const ppmtokgha = 2.24;
+    const percenttokgha = 22400;
+    if (unit.nitrogenUnit === "ppm") {
+      formdata.nitrogen = formdata.nitrogen * ppmtokgha;
+    } else if (unit.nitrogenUnit === "%") {
+      formdata.nitrogen = formdata.nitrogen * percenttokgha;
+    }
+    if (unit.phosphorousUnit === "ppm") {
+      formdata.phosphorous = formdata.phosphorous * ppmtokgha;
+    } else if (unit.phosphorousUnit === "%") {
+      formdata.phosphorous = formdata.phosphorous * percenttokgha;
+    }
+    if (unit.pottasiumUnit === "ppm") {
+      formdata.pottasium = formdata.pottasium * ppmtokgha;
+    } else if (unit.pottasiumUnit === "%") {
+      formdata.pottasium = formdata.pottasium * percenttokgha;
+    }
+
     const res = CropPredict(formdata);
     res.then((data) => {
       document.getElementById("temp").value = data.response.result.temperature;
@@ -108,9 +141,6 @@ function CropRecommend() {
       setHumidity(data.response.result.humidity);
       setRainfall(data.response.result.rainfall);
       setShow(true);
-      setTimeout(() => {
-        setShowModal(true);
-      }, 5000);
     });
   };
   const handleReset = (event) => {
@@ -136,7 +166,7 @@ function CropRecommend() {
               {info["nitrogen"] && (
                 <InfoModal
                   title="Nitrogen"
-                  body="Nitrogen is an essential macronutrient that is important for plant growth and development. It is needed for the formation of proteins, enzymes, and chlorophyll. Nitrogen is usually applied to the soil as fertilizer in the form of ammonium or nitrate. The recommended application rate for nitrogen can be measured in kilograms per hectare (kg/ha) or parts per million (ppm) of nitrogen in the soil."
+                  body="Nitrogen is an essential macronutrient that is important for plant growth and development. It is needed for the formation of proteins, enzymes, and chlorophyll. Nitrogen is usually applied to the soil as fertilizer in the form of ammonium or nitrate. The recommended application rate for nitrogen can be measured in kilograms per hectare (kg/ha)  , parts per million (ppm)  or perecentage (%)  of nitrogen in the soil."
                   info={info}
                   setInfo={setInfo}
                   cryield={false}
@@ -156,9 +186,15 @@ function CropRecommend() {
                 style={{ marginRight: "10px" }}
                 autoFocus
               />
-              <select className="form-control units">
+              <select
+                className="form-control units"
+                name="nitrogenUnit"
+                id="nitrogenUnit"
+                onChange={handleUnitChange}
+              >
                 <option value="kg/ha">kg/ha</option>
                 <option value="ppm">ppm</option>
+                <option value="%">%</option>
               </select>
             </div>
           </div>
@@ -175,7 +211,7 @@ function CropRecommend() {
               {info["phosphorous"] && (
                 <InfoModal
                   title="Phosphorous"
-                  body="Phosphorus is another essential macronutrient that is important for plant growth and development. It is needed for energy transfer, root development, and fruit and seed formation. Phosphorus is usually applied to the soil as fertilizer in the form of phosphate. The recommended application rate for phosphorus can be measured in kilograms per hectare (kg/ha) or parts per million (ppm) of phosphorus in the soil."
+                  body="Phosphorus is another essential macronutrient that is important for plant growth and development. It is needed for energy transfer, root development, and fruit and seed formation. Phosphorus is usually applied to the soil as fertilizer in the form of phosphate. The recommended application rate for phosphorus can be measured in kilograms per hectare (kg/ha)  , parts per million (ppm)  or perecentage (%)  phosphorus in the soil."
                   info={info}
                   setInfo={setInfo}
                   cryield={false}
@@ -195,9 +231,15 @@ function CropRecommend() {
                 style={{ marginRight: "10px" }}
                 onChange={handleFormChange}
               />
-              <select className="form-control units">
+              <select
+                className="form-control units"
+                name="phosphorousUnit"
+                id="phosphorousUnit"
+                onChange={handleUnitChange}
+              >
                 <option value="kg/ha">kg/ha</option>
                 <option value="ppm">ppm</option>
+                <option value="%">%</option>
               </select>
             </div>
           </div>
@@ -214,7 +256,7 @@ function CropRecommend() {
               {info["pottasium"] && (
                 <InfoModal
                   title="Pottasium"
-                  body="Potassium is the third essential macronutrient that is important for plant growth and development. It is needed for enzyme activation, osmoregulation, and stress tolerance. Potassium is usually applied to the soil as fertilizer in the form of potassium chloride or potassium sulfate. The recommended application rate for potassium can be measured in kilograms per hectare (kg/ha) or parts per million (ppm) of potassium in the soil."
+                  body="Potassium is the third essential macronutrient that is important for plant growth and development. It is needed for enzyme activation, osmoregulation, and stress tolerance. Potassium is usually applied to the soil as fertilizer in the form of potassium chloride or potassium sulfate. The recommended application rate for potassium can be measured in kilograms per hectare (kg/ha) , parts per million (ppm)  or perecentage (%) of potassium in the soil."
                   info={info}
                   setInfo={setInfo}
                   cryield={false}
@@ -234,9 +276,15 @@ function CropRecommend() {
                 style={{ marginRight: "10px" }}
                 onChange={handleFormChange}
               />
-              <select className="form-control units">
+              <select
+                className="form-control units"
+                id="pottasiumUnit"
+                name="pottasiumUnit"
+                onChange={handleUnitChange}
+              >
                 <option value="kg/ha">kg/ha</option>
                 <option value="ppm">ppm</option>
+                <option value="%">%</option>
               </select>
             </div>
           </div>
@@ -498,10 +546,11 @@ function CropRecommend() {
       </div>
       {show && (
         <>
-          <CropResult chartData={chartData} prediction={prediction} />
-          <ResultModal
+          <CropResult
             show={showModal}
             setShow={setShowModal}
+            chartData={chartData}
+            prediction={prediction}
             body={` <p>The details of the crop recommendation are as follows:</p><ul><li>Nitrogen level: ${formdata.nitrogen} kg/ha</li><li>Phosphorus level: ${formdata.phosphorous} kg/ha</li><li>Potassium level: ${formdata.pottasium} kg/ha</li><li>pH level: ${formdata.ph}</li><li>Season: ${formdata.season}</li><li>Soil type: ${formdata.soil}</li><li>City: ${formdata.city}</li><li>Temperature: ${temperature}</li><li>Humidity: ${humidity}</li><li>Rainfall: ${rainfall}</li></ul>    <p>
       Recommended Crop: ${prediction}
     </p>

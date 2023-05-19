@@ -120,4 +120,7 @@ select {
     align-self: auto;
     order: 0;
   }
+  .units{
+    width: 30%;
+  }
 }
